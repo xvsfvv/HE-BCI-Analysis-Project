@@ -110,7 +110,7 @@ def analyze_ne_efficiency(efficiency_data, ne_universities):
         
         print("Average Efficiency (Income per Staff Day):")
         for univ, eff in avg_efficiency.items():
-            print(f"  {univ}: £{eff:.2f}")
+            print(f"  {univ}: GBP {eff:.2f}")
         
         ne_efficiency_summary[metric_name] = avg_efficiency
 
@@ -128,7 +128,7 @@ def analyze_ne_efficiency(efficiency_data, ne_universities):
         bars = plt.bar(universities, efficiencies, color=colors)
         plt.title(f'{metric_name} Efficiency - North East Universities')
         plt.xlabel('University')
-        plt.ylabel('Efficiency (£ per staff day)')
+        plt.ylabel('Efficiency (GBP per staff day)')
         plt.xticks(rotation=45, ha='right')
         plt.grid(True, alpha=0.3)
         
@@ -136,7 +136,7 @@ def analyze_ne_efficiency(efficiency_data, ne_universities):
         for bar, eff in zip(bars, efficiencies):
             if not np.isnan(eff):
                 plt.text(bar.get_x() + bar.get_width()/2, bar.get_height(), 
-                        f'£{eff:.1f}', ha='center', va='bottom')
+                        f'GBP {eff:.1f}', ha='center', va='bottom')
 
     plt.tight_layout()
     save_plot(plt.gcf(), '1.ne_efficiency_comparison.png')
@@ -164,7 +164,7 @@ def analyze_national_efficiency_ranking(efficiency_data, ne_universities):
                 rank = avg_efficiency.index.get_loc(univ) + 1
                 efficiency = avg_efficiency[univ]
                 ne_rankings[univ] = {'rank': rank, 'efficiency': efficiency}
-                print(f"  {univ}: Rank {rank}/{len(avg_efficiency)}, Efficiency: £{efficiency:.2f}")
+                print(f"  {univ}: Rank {rank}/{len(avg_efficiency)}, Efficiency: GBP {efficiency:.2f}")
         
         national_rankings[metric_name] = ne_rankings
 
@@ -189,7 +189,7 @@ def analyze_national_efficiency_ranking(efficiency_data, ne_universities):
         
         plt.title(f'{metric_name} Efficiency - National Rankings')
         plt.xlabel('National Rank')
-        plt.ylabel('Efficiency (£ per staff day)')
+        plt.ylabel('Efficiency (GBP per staff day)')
         plt.grid(True, alpha=0.3)
         
         # Invert x-axis so better rank (lower number) is on the left
@@ -231,7 +231,7 @@ def analyze_efficiency_trends(efficiency_data, ne_universities):
         
         plt.title(f'{metric_name} Efficiency Trends - North East Universities')
         plt.xlabel('Academic Year')
-        plt.ylabel('Efficiency (£ per staff day)')
+        plt.ylabel('Efficiency (GBP per staff day)')
         plt.xticks(rotation=45)
         plt.grid(True, alpha=0.3)
     
@@ -257,7 +257,7 @@ def analyze_efficiency_trends(efficiency_data, ne_universities):
                 if not np.all(np.isnan(efficiencies)):
                     trend = np.polyfit(years, efficiencies, 1)[0]
                     trend_summary[f"{metric_name}_{univ}"] = trend
-                    print(f"  {univ}: Trend = {trend:.2f} £/year")
+                    print(f"  {univ}: Trend = {trend:.2f} GBP/year")
 
     return trend_summary
 
@@ -288,24 +288,24 @@ def main():
     md_content += "## North East Universities Efficiency Summary\n\n"
     for metric_name, avg_efficiency in ne_efficiency_summary.items():
         md_content += f"### {metric_name} Efficiency\n\n"
-        md_content += "| University | Average Efficiency (£/staff day) |\n"
+        md_content += "| University | Average Efficiency (GBP/staff day) |\n"
         md_content += "|------------|----------------------------------|\n"
         for univ, eff in avg_efficiency.items():
-            md_content += f"| {univ} | £{eff:.2f} |\n"
+            md_content += f"| {univ} | GBP {eff:.2f} |\n"
         md_content += "\n"
     
     # National Rankings
     md_content += "## National Efficiency Rankings\n\n"
     for metric_name, rankings in national_rankings.items():
         md_content += f"### {metric_name} Efficiency Rankings\n\n"
-        md_content += "| University | National Rank | Efficiency (£/staff day) |\n"
+        md_content += "| University | National Rank | Efficiency (GBP/staff day) |\n"
         md_content += "|------------|---------------|---------------------------|\n"
         for univ, info in rankings.items():
-            md_content += f"| {univ} | {info['rank']} | £{info['efficiency']:.2f} |\n"
+            md_content += f"| {univ} | {info['rank']} | GBP {info['efficiency']:.2f} |\n"
         md_content += "\n"
     
-    # Save markdown report
-    with open('7.performance_efficiency_analysis.md', 'w') as f:
+    # Save markdown report with UTF-8 encoding
+    with open('7.performance_efficiency_analysis.md', 'w', encoding='utf-8') as f:
         f.write(md_content)
     
     print("\nPerformance Efficiency Analysis completed!")
