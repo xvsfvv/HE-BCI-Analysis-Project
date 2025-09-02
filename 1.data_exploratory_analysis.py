@@ -8,10 +8,12 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def create_dataset_visualizations(all_data):
-    """Create visualizations for the entire dataset overview"""
+    print("Starting to create data exploratory analysis visualizations...")
+    
     # Create output directory if it doesn't exist
-    output_dir = Path("visualizations")
-    output_dir.mkdir(exist_ok=True)
+    output_dir = Path("visualizations/data_exploratory")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Images will be saved to: {output_dir}")
     
     # Set style
     plt.style.use('bmh')  
@@ -36,8 +38,9 @@ def create_dataset_visualizations(all_data):
     plt.ylabel('Number of Missing Values')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig(output_dir / 'missing_values_comparison.png')
+    plt.savefig(output_dir / '1.missing_values_comparison.png')
     plt.close()
+    print("✓ Missing values comparison chart saved")
     
     # 2. Regional Distribution (Pie Chart)
     plt.figure(figsize=(12, 8))
@@ -48,8 +51,9 @@ def create_dataset_visualizations(all_data):
     plt.title('Distribution of Institutions by Region')
     plt.axis('equal')
     plt.tight_layout()
-    plt.savefig(output_dir / 'regional_distribution_pie.png')
+    plt.savefig(output_dir / '2.regional_distribution_pie.png')
     plt.close()
+    print("✓ Regional distribution pie chart saved")
     
     # 3. North East Institutions Value Trends
     plt.figure(figsize=(15, 8))
@@ -77,8 +81,9 @@ def create_dataset_visualizations(all_data):
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig(output_dir / 'ne_institutions_trends.png')
+    plt.savefig(output_dir / '3.ne_institutions_trends.png')
     plt.close()
+    print("✓ North East institutions trends chart saved")
     
     # 4. Overall Dataset Overview
     plt.figure(figsize=(15, 10))
@@ -118,8 +123,10 @@ def create_dataset_visualizations(all_data):
     ax4.set_xticklabels(all_data.keys(), rotation=45)
     
     plt.tight_layout()
-    plt.savefig(output_dir / 'dataset_overview.png')
+    plt.savefig(output_dir / '4.dataset_overview.png')
     plt.close()
+    print("✓ Dataset overview chart saved")
+    print("All visualization charts created successfully!")
 
 def analyze_csv_file(file_path):
     print(f"\n{'='*50}")
@@ -227,18 +234,19 @@ def handle_missing_values(df, file_name):
     return df_processed
 
 def main():
-    # Get all CSV files in the Data directory
     data_dir = Path("Data")
     csv_files = list(data_dir.glob("table-*.csv"))
     
     # Sort files by name
     csv_files.sort()
+    print(f"Found {len(csv_files)} CSV files")
     
     # Store all dataframes
     all_data = {}
     
     # Analyze each file
     for file_path in csv_files:
+        print(f"Processing: {file_path.name}")
         with open(file_path, 'r', encoding='utf-8') as f:
             header_lines = [next(f) for _ in range(11)]
         
@@ -258,7 +266,9 @@ def main():
         temp_path.unlink()
             
         logging.info(f"Updated missing values in {file_path}")
+        print(f"✓ {file_path.name} missing values processed")
     
+    print("\nStarting to create visualization charts...")
     # Create visualizations using original data
     create_dataset_visualizations(all_data)
 
