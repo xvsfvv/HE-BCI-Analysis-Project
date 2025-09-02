@@ -2,6 +2,8 @@
 
 ![HE-BCI Analysis Project](topic_image.png)
 
+**📄 Report Format**: The project report is completed in LaTeX format and stored in `@report/report_latex/`. For quick viewing, download this folder, compress it to ZIP format, and upload it to [Overleaf](https://www.overleaf.com/) for online compilation and viewing.
+
 ## Project Overview
 
 This project conducts an in-depth analysis of **Higher Education Business and Community Interaction (HE-BCI)** data, focusing on **Durham University** and the **North East England region** knowledge exchange performance assessment. The project employs a comprehensive analytical approach across five dimensions: income, intellectual property, public engagement, regional positioning, and trend prediction, providing data-driven decision support for university strategic planning.
@@ -117,8 +119,9 @@ HE-BCI_Analysis/
 │   ├── table-4d.csv              # Total IP income data
 │   ├── table-4e.csv              # Spin-out companies data
 │   └── table-5.csv               # Public engagement data
-├── NE_Data/                       # North East region data
+├── Sample_Data_in_NE/             # Sample data for North East region
 ├── visualizations/                # Generated visualization charts
+│   ├── data_exploratory/         # Data exploratory analysis charts
 │   ├── income_analysis/          # Income analysis charts
 │   ├── ip_analysis/              # IP analysis charts
 │   ├── public_engagement/        # Public engagement charts
@@ -127,9 +130,7 @@ HE-BCI_Analysis/
 │   ├── resilience_risk/          # Resilience and risk charts
 │   └── trend_prediction/         # Trend prediction charts
 ├── report/                        # Project reports
-│   ├── report_latex/             # LaTeX report source files
-│   ├── report.pdf                # Final PDF report
-│   └── report.docx               # Word format report
+│   └── report_latex/             # LaTeX report source files
 ├── 1.data_exploratory_analysis.py    # Data exploratory analysis
 ├── 2.income_analysis.py              # Income analysis
 ├── 3.ip_analysis.py                  # Intellectual property analysis
@@ -138,7 +139,6 @@ HE-BCI_Analysis/
 ├── 6.performance_efficiency_analysis.py # Performance efficiency analysis
 ├── 7.resilience_risk_analysis.py     # Resilience and risk analysis
 ├── 8.trend_prediction.py             # Trend prediction analysis
-├── check_missing_values.py            # Missing values check
 ├── requirements.txt                   # Python dependencies
 ├── README.md                         # Project documentation
 └── topic_image.png                   # Project cover image
