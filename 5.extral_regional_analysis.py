@@ -28,20 +28,20 @@ def load_data():
     base_dir = Path(__file__).resolve().parent  
 
     # Income data
-    data['research'] = pd.read_csv(base_dir / 'table-1.csv', skiprows=11)
-    data['business'] = pd.read_csv(base_dir / 'table-2a.csv', skiprows=11)
-    data['cpd'] = pd.read_csv(base_dir / 'table-2b.csv', skiprows=11)
-    data['regeneration'] = pd.read_csv(base_dir / 'table-3.csv', skiprows=11)
+    data['research'] = pd.read_csv(base_dir / 'table-1.csv', skiprows=11, encoding='utf-8')
+    data['business'] = pd.read_csv(base_dir / 'table-2a.csv', skiprows=11, encoding='utf-8')
+    data['cpd'] = pd.read_csv(base_dir / 'table-2b.csv', skiprows=11, encoding='utf-8')
+    data['regeneration'] = pd.read_csv(base_dir / 'table-3.csv', skiprows=11, encoding='utf-8')
 
     # IP data
-    data['ip_disclosures'] = pd.read_csv(base_dir / 'table-4a.csv', skiprows=11)
-    data['ip_licenses'] = pd.read_csv(base_dir / 'table-4b.csv', skiprows=11)
-    data['ip_income'] = pd.read_csv(base_dir / 'table-4c.csv', skiprows=11)
-    data['ip_income_total'] = pd.read_csv(base_dir / 'table-4d.csv', skiprows=11)
-    data['spinouts'] = pd.read_csv(base_dir / 'table-4e.csv', skiprows=11)
+    data['ip_disclosures'] = pd.read_csv(base_dir / 'table-4a.csv', skiprows=11, encoding='utf-8')
+    data['ip_licenses'] = pd.read_csv(base_dir / 'table-4b.csv', skiprows=11, encoding='utf-8')
+    data['ip_income'] = pd.read_csv(base_dir / 'table-4c.csv', skiprows=11, encoding='utf-8')
+    data['ip_income_total'] = pd.read_csv(base_dir / 'table-4d.csv', skiprows=11, encoding='utf-8')
+    data['spinouts'] = pd.read_csv(base_dir / 'table-4e.csv', skiprows=11, encoding='utf-8')
 
     # Public engagement data
-    data['public_engagement'] = pd.read_csv(base_dir / 'table-5.csv', skiprows=11)
+    data['public_engagement'] = pd.read_csv(base_dir / 'table-5.csv', skiprows=11, encoding='utf-8')
 
     # Clean column names for all datasets
     for key in data:
@@ -243,7 +243,7 @@ def main():
         md_content += f"### {area}\n\n"
         md_content += df.to_string() + "\n\n"
 
-    with open('5.extral_regional_analysis.md', 'w') as f:
+    with open('5.extral_regional_analysis.md', 'w', encoding='utf-8') as f:
         f.write(md_content)
 
     ###############################

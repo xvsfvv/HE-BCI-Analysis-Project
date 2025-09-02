@@ -22,14 +22,13 @@ def load_data():
         'The University of Sunderland'
     ]
 
-    data = {}
-
-    # Income data
-    data['research'] = pd.read_csv('Data/table-1.csv', skiprows=11)
-    data['business'] = pd.read_csv('Data/table-2a.csv', skiprows=11)
-    data['cpd'] = pd.read_csv('Data/table-2b.csv', skiprows=11)
-    data['regeneration'] = pd.read_csv('Data/table-3.csv', skiprows=11)
-    data['ip_income'] = pd.read_csv('Data/table-4c.csv', skiprows=11)
+    data = {
+        'research': pd.read_csv('Data/table-1.csv', skiprows=11, encoding='utf-8'),
+        'business': pd.read_csv('Data/table-2a.csv', skiprows=11, encoding='utf-8'),
+        'cpd': pd.read_csv('Data/table-2b.csv', skiprows=11, encoding='utf-8'),
+        'regeneration': pd.read_csv('Data/table-3.csv', skiprows=11, encoding='utf-8'),
+        'ip_income': pd.read_csv('Data/table-4c.csv', skiprows=11, encoding='utf-8')
+    }
 
     # Clean column names for all datasets
     for key in data:
@@ -518,7 +517,7 @@ def main():
             md_content += df_summary.to_markdown(index=False) + "\n\n"
     
     # Save markdown report
-    with open('8.resilience_risk_analysis.md', 'w') as f:
+    with open('8.resilience_risk_analysis.md', 'w', encoding='utf-8') as f:
         f.write(md_content)
     
     print("\nResilience and Risk Analysis completed!")

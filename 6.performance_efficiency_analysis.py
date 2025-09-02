@@ -22,15 +22,14 @@ def load_data():
         'The University of Sunderland'
     ]
 
-    data = {}
-
-    # Income data
-    data['research'] = pd.read_csv('Data/table-1.csv', skiprows=11)
-    data['business'] = pd.read_csv('Data/table-2a.csv', skiprows=11)
-    data['cpd'] = pd.read_csv('Data/table-2b.csv', skiprows=11)
-    data['regeneration'] = pd.read_csv('Data/table-3.csv', skiprows=11)
-    data['ip_income'] = pd.read_csv('Data/table-4c.csv', skiprows=11)
-    data['public_engagement'] = pd.read_csv('Data/table-5.csv', skiprows=11)
+    data = {
+        'research': pd.read_csv('Data/table-1.csv', skiprows=11, encoding='utf-8'),
+        'business': pd.read_csv('Data/table-2a.csv', skiprows=11, encoding='utf-8'),
+        'cpd': pd.read_csv('Data/table-2b.csv', skiprows=11, encoding='utf-8'),
+        'regeneration': pd.read_csv('Data/table-3.csv', skiprows=11, encoding='utf-8'),
+        'ip_income': pd.read_csv('Data/table-4c.csv', skiprows=11, encoding='utf-8'),
+        'public_engagement': pd.read_csv('Data/table-5.csv', skiprows=11, encoding='utf-8')
+    }
 
     # Clean column names for all datasets
     for key in data:

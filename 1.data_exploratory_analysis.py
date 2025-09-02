@@ -88,28 +88,33 @@ def create_dataset_visualizations(all_data):
     
     # 4.1 Total Records per File
     records_count = [len(df) for df in all_data.values()]
-    ax1.bar(all_data.keys(), records_count)
+    x_positions = range(len(all_data.keys()))
+    ax1.bar(x_positions, records_count)
     ax1.set_title('Total Records per File')
+    ax1.set_xticks(x_positions)
     ax1.set_xticklabels(all_data.keys(), rotation=45)
     
     # 4.2 Average Values per File
     avg_values = [df['Value'].mean() if 'Value' in df.columns else 0 for df in all_data.values()]
-    ax2.bar(all_data.keys(), avg_values)
+    ax2.bar(x_positions, avg_values)
     ax2.set_title('Average Values per File')
+    ax2.set_xticks(x_positions)
     ax2.set_xticklabels(all_data.keys(), rotation=45)
     
     # 4.3 Number of Unique Institutions per File
     unique_inst = [df['HE Provider'].nunique() if 'HE Provider' in df.columns else 0 
                   for df in all_data.values()]
-    ax3.bar(all_data.keys(), unique_inst)
+    ax3.bar(x_positions, unique_inst)
     ax3.set_title('Number of Unique Institutions per File')
+    ax3.set_xticks(x_positions)
     ax3.set_xticklabels(all_data.keys(), rotation=45)
     
     # 4.4 Year Coverage per File
     year_coverage = [df['Academic Year'].nunique() if 'Academic Year' in df.columns else 0 
                     for df in all_data.values()]
-    ax4.bar(all_data.keys(), year_coverage)
+    ax4.bar(x_positions, year_coverage)
     ax4.set_title('Year Coverage per File')
+    ax4.set_xticks(x_positions)
     ax4.set_xticklabels(all_data.keys(), rotation=45)
     
     plt.tight_layout()
@@ -122,7 +127,7 @@ def analyze_csv_file(file_path):
     print(f"{'='*50}")
     
     # header at line 12
-    df = pd.read_csv(file_path, skiprows=11, header=0)
+    df = pd.read_csv(file_path, skiprows=11, header=0, encoding='utf-8')
     
     # Display basic information
     print("\nColumn names:")
@@ -234,16 +239,16 @@ def main():
     
     # Analyze each file
     for file_path in csv_files:
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             header_lines = [next(f) for _ in range(11)]
         
-        df = pd.read_csv(file_path, skiprows=11, header=0)
+        df = pd.read_csv(file_path, skiprows=11, header=0, encoding='utf-8')
         all_data[file_path.name] = df  # Store original data
         
         df_processed = handle_missing_values(df, file_path.name)
         
         temp_path = file_path.parent / f"temp_{file_path.name}"
-        df_processed.to_csv(temp_path, index=False)
+        df_processed.to_csv(temp_path, index=False, encoding='utf-8')
         
         with open(file_path, 'w', encoding='utf-8') as f_out:
             f_out.writelines(header_lines)

@@ -13,7 +13,7 @@ def save_plot(fig, filename):
 
 def analyze_public_engagement():
     """Analyze public engagement data from Table 5"""
-    df = pd.read_csv('Data/table-5.csv', skiprows=11)
+    df = pd.read_csv('Data/table-5.csv', skiprows=11, encoding='utf-8')
     
     # Clean column names
     df.columns = df.columns.str.strip()

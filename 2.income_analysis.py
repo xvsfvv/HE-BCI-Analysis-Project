@@ -15,10 +15,10 @@ def analyze_income():
     """Main function to analyze all income-related data"""
     data_dir = Path('Data')
     tables = {
-        'table1': pd.read_csv(data_dir / 'table-1.csv', skiprows=11),
-        'table2a': pd.read_csv(data_dir / 'table-2a.csv', skiprows=11),
-        'table2b': pd.read_csv(data_dir / 'table-2b.csv', skiprows=11),
-        'table3': pd.read_csv(data_dir / 'table-3.csv', skiprows=11)
+        'table1': pd.read_csv(data_dir / 'table-1.csv', skiprows=11, encoding='utf-8'),
+        'table2a': pd.read_csv(data_dir / 'table-2a.csv', skiprows=11, encoding='utf-8'),
+        'table2b': pd.read_csv(data_dir / 'table-2b.csv', skiprows=11, encoding='utf-8'),
+        'table3': pd.read_csv(data_dir / 'table-3.csv', skiprows=11, encoding='utf-8')
     }
     
     # Define universities for comparison
@@ -286,15 +286,20 @@ def analyze_income():
     print(f"Durham's value: £{national_regeneration['University of Durham']:,.0f}")
     print(f"Difference from national average: £{national_regeneration['University of Durham'] - national_avg:,.0f}")
     
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(16, 8))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(programme)))
     ax = plt.bar(programme.index, programme.values, color=colors)
-    plt.title('Regeneration and Development by Programme (Durham)')
-    plt.xticks(rotation=45)
+    plt.title('Regeneration and Development by Programme (Durham)', fontsize=14, pad=20)
+    plt.xticks(rotation=45, ha='right')
+    plt.xlabel('Programme', fontsize=12, labelpad=15)
+    plt.ylabel('Value (£)', fontsize=12, labelpad=15)
+    
     # Add value labels on top of bars
     for i, v in enumerate(programme.values):
-        plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
-    plt.tight_layout()
+        plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom', fontsize=10)
+    
+    # Adjust layout to prevent label cutoff - significantly increase bottom margin
+    plt.subplots_adjust(bottom=0.45, left=0.08, right=0.92)
     save_plot(fig, '4.1_regeneration_programme.png')
     
     # 4.2 Time Trend Analysis (Durham only)

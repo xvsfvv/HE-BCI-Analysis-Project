@@ -2,7 +2,7 @@
 \IEEEoverridecommandlockouts
 
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
-\usepackage{textcomp}
+% \usepackage{textcomp}
 % \usepackage{abstract}
 % \usepackage{algorithm,algorithmicx}
 \usepackage[ruled,vlined]{algorithm2e}
@@ -15,8 +15,8 @@
 \usepackage{latexsym}
 \usepackage{float}
 \usepackage{multirow}
-\usepackage{txfonts}
-\usepackage{mathptmx}
+% \usepackage{txfonts}
+% \usepackage{mathptmx}
 \usepackage{mathrsfs}
 \usepackage{exscale}
 \usepackage{relsize}
@@ -410,7 +410,7 @@ Durham University delivered 98,190 learner days through CPD and continuing educa
 The activity involved 98,190 learner days and generated \textsterling 16,714 (in \textsterling 000s), highlighting a substantial investment of academic time and institutional effort in delivering CPD and continuing education, even though the income per learner day remained relatively low. Durham ranked fifth in the North East for CPD income, trailing behind Teesside (\textsterling 2,077,012), Northumbria (\textsterling 514,226), Newcastle (\textsterling 222,793), and Sunderland (\textsterling 144,043). Nationally, Durham ranked 94th out of 228 institutions and was \textsterling 120,751 below the national average, suggesting an opportunity for growth in monetizing its CPD offerings.
 
 Table~\ref{tab:cpd-analysis} illustrates the distribution of CPD activities across different categories and organizational types, providing insights into Durham's continuing education portfolio structure. While the CPD activities show significant time investment in terms of learner days, the financial returns are relatively low compared to other regional universities. This suggests potential for optimization in CPD delivery and pricing strategies to better align with market expectations.
-\vspace{0.25cm}
+\vspace{0.3cm}
 \begin{table}[h]
 \centering
 \caption{CPD and Continuing Education Analysis - Durham University}
@@ -449,7 +449,7 @@ Figures~\ref{fig:regeneration-programme}, \ref{fig:regeneration-time-trend}, and
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.8\textwidth]{Fig/figure14.regeneration_programme.png}
+\includegraphics[width=0.9\textwidth]{Fig/figure14.regeneration_programme.png}
 \caption{Regeneration Programme Distribution}
 \label{fig:regeneration-programme}
 \end{figure}
@@ -570,7 +570,7 @@ The license analysis reveals Durham's extensive portfolio but highlights opportu
 
 Durham generated a total of \textsterling 18,340 in IP-related income, with \textsterling 517 from non-software licenses, \textsterling 49 from software licenses, and \textsterling 160 from other IP sources. These figures reflect minimal financial return from the university's IP assets.
 
-Income by client type showed that SMEs contributed \textsterling 458, followed by other commercial businesses (\textsterling 163) and non-commercial organizations (\textsterling 105), indicating generally low monetization across all sectors. In the North East, Durham ranked second in IP income, behind Newcastle University (\textsterling 151,785), and held the 35th position nationally out of 228 universities.
+Income by client type showed that SMEs contributed \pounds 458, followed by other commercial businesses (\pounds 163) and non-commercial organizations (\textsterling 105), indicating generally low monetization across all sectors. In the North East, Durham ranked second in IP income, behind Newcastle University (\textsterling 151,785), and held the 35th position nationally out of 228 universities.
 
 
 
@@ -628,18 +628,39 @@ Durham's IP income performance is well below the national average, underscoring 
 
 Durham shows strong performance in spin-off activity, with significant economic impact in terms of employment, revenue, and external investment. The university's support for both university-owned and student-led ventures highlights the success of its entrepreneurship and technology transfer frameworks.
 
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.4\textwidth]{Fig/figure27.spin_metric_type.png}
+% \caption{Spin-off Company Metrics - Radar Chart}
+% \label{fig:spin-metric-type}
+% \end{figure}
+% \hfill
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=0.6\textwidth]{Fig/figure28.spin_category.png}
+% \caption{Spin-off Company Categories - Pie Chart}
+% \label{fig:spin-category}
+% \end{figure}
+
+
 \begin{figure}[h]
-\centering
-\includegraphics[width=0.4\textwidth]{Fig/figure27.spin_metric_type.png}
-\caption{Spin-off Company Metrics - Radar Chart}
-\label{fig:spin-metric-type}
-\end{figure}
-\hfill
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{Fig/figure28.spin_category.png}
-\caption{Spin-off Company Categories - Pie Chart}
-\label{fig:spin-category}
+    \centering
+    \begin{subfigure}[b]{0.33\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure27.spin_metric_type.png}
+        \caption{Spin-off Company Metrics - Radar Chart}
+        \label{fig:spin-metric-type}
+    \end{subfigure}
+    \hspace{0.05\textwidth} 
+    \begin{subfigure}[b]{0.54\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure28.spin_category.png}
+        \caption{Spin-off Company Categories - Pie Chart}
+        \label{fig:spin-category}
+    \end{subfigure}
+    \vspace{0.65cm}
+    \caption{Spin-off Company Analysis}
+    \label{fig:spin-analysis}
 \end{figure}
 
 \begin{figure}[h]
@@ -1103,7 +1124,7 @@ To complement forecasting, I apply unsupervised learning to categorize instituti
 
 Durham University's trend analysis reveals strong growth potential in research income and IP disclosures, with consistent positive forecasts across models. CPD income is also a bright spot, showing resilient and upward trends. In contrast, business income and IP income display volatility and uncertainty, pointing to potential challenges in commercialization and income stability. Public engagement, while facing projected decline, performs better than peer institutions. Overall, Durham shows solid foundations in research and innovation but needs to address monetization efficiency and business income diversification to ensure balanced, long-term growth.
 
-\section{Results Summary}
+\section{Results}
 
 \subsection{Income Analysis Summary}
 
@@ -1137,7 +1158,7 @@ At the regional level, Northumbria emerges as highly volatile, whereas Newcastle
 
 The trend prediction analysis presents a mixed outlook for Durham University's future performance. Research income and IP disclosures show strong growth potential across multiple prediction methods, with consistent positive trends. However, business income and IP income predictions show high volatility, indicating potential challenges in commercialization. Public engagement is predicted to decline, though at a slower rate than the national average. CPD income shows consistent positive growth predictions, suggesting potential for development in this area. The analysis suggests that while the university has strong foundations in research and IP generation, there may be challenges in commercializing these activities and maintaining business income levels.
 
-\section{Recommendations for Durham University}
+\section{Discussion \& Recommendations for Durham University}
 The comprehensive volatility analysis reveals distinct strategic priorities for Durham University across different income streams. Based on the concentration-volatility correlation analysis and efficiency benchmarking, the following priority matrix guides our recommendations:
 
 \begin{itemize}
@@ -1152,7 +1173,7 @@ The comprehensive volatility analysis reveals distinct strategic priorities for 
 
 \begin{itemize}
     \item \textbf{Research Income Optimization:} Durham University currently ranks 33rd nationally for research income, with \textsterling 639,706, placing it in the top 15\% of institutions. This income level surpasses the 75th percentile (\textsterling 222,681), indicating strong baseline performance. Forecasting models project further growth potential: linear regression predicts a +25.70\% increase, while exponential smoothing forecasts +27.04\%. However, a random forest model suggests a possible -5.63\% decline, highlighting the need for risk mitigation. Deep analysis reveals that Durham's research income volatility ($\mathrm{CV}=0.309$) is primarily driven by BEIS Research Councils funding concentration (60.7\% of total), creating dependency on government policy cycles, and irregular timing of large collaborative projects leading to year-on-year fluctuations of up to 986.6\% growth in peak years. Recommendations include building on current momentum through targeted growth plans, implementing early-warning systems for revenue volatility, and strengthening the management of research grant applications to secure sustainable long-term growth. To address the structural volatility drivers, Durham should prioritize funding source diversification beyond BEIS Research Councils, develop multi-year grant planning to smooth project timing, and establish policy risk monitoring systems to anticipate government funding cycle changes.
-    
+      
     \item \textbf{Business Services Development:} Ranked 31st nationally, Durham's business services income shows considerable volatility, with predictions ranging from -54.84\% to +6.77\%. The HHI index (0.47-0.69) reflects high specialization, posing potential concentration risk. Further investigation reveals that Durham's business services volatility ($\mathrm{CV}=0.380$) stems from three key structural factors: (1) the dominance of contract research (49.7\% of business income) which is highly sensitive to external funding cycles, (2) the concentration of clients in non-commercial organizations (66.8\% of contracts), making the institution vulnerable to public sector budget cuts, and (3) the limited engagement with SMEs (6.0\% of contracts), missing opportunities for more stable, diversified income streams. To address this, the university should implement income stabilization mechanisms, diversify its service offerings to broaden its client base, and explore innovative business models inspired by Northumbria's projected +61.92\% growth. Based on the strongest concentration-volatility relationship (r=0.67) among all income types, business service diversification should be Durham's highest priority, with expected volatility reduction of 40-60\%. Specific actions include expanding SME partnerships beyond the current 6.0\% level, developing non-contract research services, and reducing non-commercial client dependency from 66.8\% to below 50\%.
     
     \item \textbf{CPD Revenue Improvement:} While Durham attracts 98,190 learner days for its CPD programs, revenue remains low at \textsterling 8,357, equating to just \textsterling 0.085 per learner day. Despite a national average decline of -25.16\%, Durham's predicted growth of +39.28\% signals untapped potential. Detailed analysis uncovers the root cause of Durham's CPD underperformance: despite delivering 98,190 learner days (ranking 4th regionally), the revenue generation efficiency is extremely low at \textsterling 0.085 per learner day, compared to Teesside's \textsterling 0.211 efficiency. This inefficiency stems from (1) the high proportion of free or subsidized courses (83.1\% of total value), (2) the focus on non-commercial organizations (52.8\% of courses) which typically pay lower rates, and (3) the lack of premium CPD offerings that could command higher fees. To improve returns, the university should expand high-value CPD offerings, optimize its revenue conversion strategy, and boost its competitiveness in a declining sector. Based on the moderate concentration-volatility relationship (r=0.39), CPD diversification offers medium priority with expected revenue improvement of 25-35\%. Specific actions include developing specialized, high-value professional development programs to reduce the 83.1\% free course ratio, targeting commercial organizations to increase the current 47.2\% commercial client base, and implementing tiered pricing strategies to capture higher margins from premium offerings.
@@ -1222,46 +1243,60 @@ Detailed Implementation Timeline:
     \item \textbf{Long-term (5+ years):} Move towards becoming a national leader in institutional resilience and predictive management. Establish an integrated strategic planning unit that links forecasting, risk analysis, and financial planning into a coherent framework for long-term stability and growth.
 \end{itemize}
 
+\section{Conclusion}
+
+This comprehensive analysis of Durham University's HE-BCI performance reveals a complex institutional profile characterized by both significant strengths and strategic challenges within the UK higher education landscape. The study demonstrates that Durham maintains a strong regional position as the second-highest performing institution in the North East, consistently ranking among the top 15\% nationally across multiple performance indicators. The university's research income performance is particularly noteworthy, with \textsterling 639,706 placing it 33rd nationally and significantly outperforming the national average by \textsterling 255,512.
+
+The analysis identifies several key strengths that position Durham for continued success. The university demonstrates robust IP generation capabilities, ranking 31st nationally in disclosures with a substantial patent portfolio of 2,019 patents and supporting 642 active spin-off companies that employ 5,455 FTE staff and generate \textsterling 542.35 million in turnover. Public engagement activities show significant community impact, with 6,024,744 participants across diverse programming, though 72.1\% of events are free, limiting revenue generation. Regional positioning analysis reveals balanced specialization with HHI values of 0.28-0.31 in research, indicating healthy diversification without overconcentration.
+
+However, the study also reveals critical areas requiring strategic attention. Performance efficiency analysis shows that Durham underperforms relative to peers when normalized by academic staff time, ranking 78th nationally in research efficiency and 95th in business services efficiency. Business services income shows considerable volatility (CV=0.380), primarily due to high dependency on contract research (49.7\% of business income) and non-commercial organizations (66.8\% of clients). IP commercialization efficiency remains low, with only 1.7\% of licenses generating income, significantly below the national average of \textsterling 19.30 per license. CPD activities, despite high learner engagement (98,190 days), generate minimal revenue (\textsterling 0.085 per learner day), indicating substantial untapped potential compared to regional peers like Teesside (\textsterling 0.211 per learner day).
+
+The trend prediction analysis offers a mixed outlook for Durham's future performance. Research income and IP disclosures show strong growth potential (+25.70\% to +27.04\% and +50.49\% respectively), while CPD income trends are consistently positive across all models (+39.28\% growth). However, business income projections show high volatility (-54.84\% to +6.77\%), highlighting the urgent need for stabilization strategies. Public engagement is predicted to decline by -20.49\%, though this is significantly better than the national average of -30.30\%.
+
+To address these challenges and capitalize on opportunities, Durham should prioritize business service diversification as its highest strategic priority, targeting a 40-60\% reduction in volatility through expanded SME partnerships and reduced non-commercial client dependency. IP commercialization requires fundamental restructuring to improve income generation rates from 1.7\% to at least 5\%, while CPD optimization should focus on premium offerings and commercial client expansion to improve efficiency from \textsterling 0.085 to \textsterling 0.150 per learner day.
+
+The analysis demonstrates that Durham University possesses the foundational strengths necessary for continued regional leadership and national prominence. By implementing the identified strategic priorities, particularly in business diversification, IP commercialization, and efficiency optimization, Durham can enhance its resilience, improve income stability, and strengthen its position as a key driver of innovation and economic development in the North East region.
+
 \appendix
-\section{Forecasted Trends and Additional Results}
+% \section{Forecasted Trends and Additional Results}
 
-This appendix contains additional forecasting results and trend analysis data that support the main findings presented in the report. The script overview as follows,
-\begin{itemize}
-    \item \textbf{Data Exploratory Analysis (1.data\_exploratory\_analysis.py):} Initial data exploration, missing value analysis, and dataset overview visualizations
-    \item \textbf{Income Analysis (2.income\_analysis.py):} Comprehensive analysis of research income, business services, CPD, and regeneration income
-    \item \textbf{IP Analysis (3.ip\_analysis.py):} Intellectual property disclosures, licensing, and commercialization analysis
-    \item \textbf{Public Engagement (4.public\_engagement\_analysis.py):} Public engagement activities, events, and community interaction analysis
-    \item \textbf{Regional Analysis (5.extral\_regional\_analysis.py):} Regional comparison and specialization analysis using HHI indices
-    \item \textbf{Performance Efficiency (6.performance\_efficiency\_analysis.py):} Efficiency metrics and benchmarking analysis
-    \item \textbf{Resilience Risk (7.resilience\_risk\_analysis.py):} Volatility analysis, coefficient of variation calculations, and risk assessment
-    \item \textbf{Trend Prediction (8.trend\_prediction.py):} Advanced forecasting models including linear regression, exponential smoothing, random forest, ARIMA, and XGBoost
-\end{itemize}
+% This appendix contains additional forecasting results and trend analysis data that support the main findings presented in the report. The script overview as follows,
+% \begin{itemize}
+%     \item \textbf{Data Exploratory Analysis (1.data\_exploratory\_analysis.py):} Initial data exploration, missing value analysis, and dataset overview visualizations
+%     \item \textbf{Income Analysis (2.income\_analysis.py):} Comprehensive analysis of research income, business services, CPD, and regeneration income
+%     \item \textbf{IP Analysis (3.ip\_analysis.py):} Intellectual property disclosures, licensing, and commercialization analysis
+%     \item \textbf{Public Engagement (4.public\_engagement\_analysis.py):} Public engagement activities, events, and community interaction analysis
+%     \item \textbf{Regional Analysis (5.extral\_regional\_analysis.py):} Regional comparison and specialization analysis using HHI indices
+%     \item \textbf{Performance Efficiency (6.performance\_efficiency\_analysis.py):} Efficiency metrics and benchmarking analysis
+%     \item \textbf{Resilience Risk (7.resilience\_risk\_analysis.py):} Volatility analysis, coefficient of variation calculations, and risk assessment
+%     \item \textbf{Trend Prediction (8.trend\_prediction.py):} Advanced forecasting models including linear regression, exponential smoothing, random forest, ARIMA, and XGBoost
+% \end{itemize}
 
-All scripts use Python 3.10 with pandas, matplotlib, numpy, and scikit-learn libraries. The code includes comprehensive error handling, logging, and produces publication-ready visualizations with consistent styling. The following are excerpts of key code from each analysis module.
+% All scripts use Python 3.10 with pandas, matplotlib, numpy, and scikit-learn libraries. The code includes comprehensive error handling, logging, and produces publication-ready visualizations with consistent styling. The following are excerpts of key code from each analysis module.
 
-1. Data Exploratory Analysis Script:
-\inputminted{python}{Code/1.data_exploratory_analysis.py}
+% 1. Data Exploratory Analysis Script:
+% \inputminted{python}{Code/1.data_exploratory_analysis.py}
 
-2. Income Analysis Script:
-\inputminted{python}{Code/2.income_analysis.py}
+% 2. Income Analysis Script:
+% \inputminted{python}{Code/2.income_analysis.py}
 
-3. IP Analysis Script:
-\inputminted{python}{Code/3.ip_analysis.py}
+% 3. IP Analysis Script:
+% \inputminted{python}{Code/3.ip_analysis.py}
 
-4. Public Engagement Analysis Script:
-\inputminted{python}{Code/4.public_engagement_analysis.py}
+% 4. Public Engagement Analysis Script:
+% \inputminted{python}{Code/4.public_engagement_analysis.py}
 
-5. Regional Analysis Script:
-\inputminted{python}{Code/5.extral_regional_analysis.py}
+% 5. Regional Analysis Script:
+% \inputminted{python}{Code/5.extral_regional_analysis.py}
 
-6. Performance Efficiency Analysis Script:
-\inputminted{python}{Code/6.performance_efficiency_analysis.py}
+% 6. Performance Efficiency Analysis Script:
+% \inputminted{python}{Code/6.performance_efficiency_analysis.py}
 
-7. Resilience Risk Analysis Script:
-\inputminted{python}{Code/7.resilience_risk_analysis.py}
+% 7. Resilience Risk Analysis Script:
+% \inputminted{python}{Code/7.resilience_risk_analysis.py}
 
-8. Trend Prediction Script:
-\inputminted{python}{Code/8.trend_prediction.py}
+% 8. Trend Prediction Script:
+% \inputminted{python}{Code/8.trend_prediction.py}
 
 \vspace{0.3cm}
 \begin{table}[h]

@@ -15,11 +15,11 @@ def analyze_ip():
     """Main function to analyze all intellectual property related data"""
     data_dir = Path('Data')
     tables = {
-        'table4a': pd.read_csv(data_dir / 'table-4a.csv', skiprows=11),
-        'table4b': pd.read_csv(data_dir / 'table-4b.csv', skiprows=11),
-        'table4c': pd.read_csv(data_dir / 'table-4c.csv', skiprows=11),
-        'table4d': pd.read_csv(data_dir / 'table-4d.csv', skiprows=11),
-        'table4e': pd.read_csv(data_dir / 'table-4e.csv', skiprows=11)
+        'table4a': pd.read_csv(data_dir / 'table-4a.csv', skiprows=11, encoding='utf-8'),
+        'table4b': pd.read_csv(data_dir / 'table-4b.csv', skiprows=11, encoding='utf-8'),
+        'table4c': pd.read_csv(data_dir / 'table-4c.csv', skiprows=11, encoding='utf-8'),
+        'table4d': pd.read_csv(data_dir / 'table-4d.csv', skiprows=11, encoding='utf-8'),
+        'table4e': pd.read_csv(data_dir / 'table-4e.csv', skiprows=11, encoding='utf-8')
     }
     
     # Define universities for comparison

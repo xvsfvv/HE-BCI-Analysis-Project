@@ -46,26 +46,26 @@ def load_data():
     data = {}
     
     # Load research income data
-    data['research'] = pd.read_csv('Data/table-1.csv', skiprows=11)
+    data['research'] = pd.read_csv('Data/table-1.csv', skiprows=11, encoding='utf-8')
     
     # Load business services data
-    data['business'] = pd.read_csv('Data/table-2a.csv', skiprows=11)
+    data['business'] = pd.read_csv('Data/table-2a.csv', skiprows=11, encoding='utf-8')
     
     # Load CPD data
-    data['cpd'] = pd.read_csv('Data/table-2b.csv', skiprows=11)
+    data['cpd'] = pd.read_csv('Data/table-2b.csv', skiprows=11, encoding='utf-8')
     
     # Load regeneration data
-    data['regeneration'] = pd.read_csv('Data/table-3.csv', skiprows=11)
+    data['regeneration'] = pd.read_csv('Data/table-3.csv', skiprows=11, encoding='utf-8')
     
     # Load IP data
-    data['ip_disclosures'] = pd.read_csv('Data/table-4a.csv', skiprows=11)
-    data['ip_licenses'] = pd.read_csv('Data/table-4b.csv', skiprows=11)
-    data['ip_income'] = pd.read_csv('Data/table-4c.csv', skiprows=11)
-    data['ip_income_total'] = pd.read_csv('Data/table-4d.csv', skiprows=11)
-    data['spinouts'] = pd.read_csv('Data/table-4e.csv', skiprows=11)
+    data['ip_disclosures'] = pd.read_csv('Data/table-4a.csv', skiprows=11, encoding='utf-8')
+    data['ip_licenses'] = pd.read_csv('Data/table-4b.csv', skiprows=11, encoding='utf-8')
+    data['ip_income'] = pd.read_csv('Data/table-4c.csv', skiprows=11, encoding='utf-8')
+    data['ip_income_total'] = pd.read_csv('Data/table-4d.csv', skiprows=11, encoding='utf-8')
+    data['spinouts'] = pd.read_csv('Data/table-4e.csv', skiprows=11, encoding='utf-8')
     
     # Load public engagement data
-    data['public_engagement'] = pd.read_csv('Data/table-5.csv', skiprows=11)
+    data['public_engagement'] = pd.read_csv('Data/table-5.csv', skiprows=11, encoding='utf-8')
     
     # Clean column names for all datasets
     for key in data:
@@ -628,7 +628,7 @@ def predict_trends(data, ne_universities):
                 print(line)
                 md_lines.append(f"- {school}: {all_methods_summary[method_name][metric][school]}")
             md_lines.append("")
-    with open("8.trend_prediction.md", "w") as f:
+    with open("8.trend_prediction.md", "w", encoding='utf-8') as f:
         f.write("\n".join(md_lines))
     print("\nSummary written to 8.trend_prediction.md")
 
