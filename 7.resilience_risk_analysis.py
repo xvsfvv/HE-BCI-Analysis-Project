@@ -27,7 +27,8 @@ def load_data():
         'business': pd.read_csv('Data/table-2a.csv', skiprows=11, encoding='utf-8'),
         'cpd': pd.read_csv('Data/table-2b.csv', skiprows=11, encoding='utf-8'),
         'regeneration': pd.read_csv('Data/table-3.csv', skiprows=11, encoding='utf-8'),
-        'ip_income': pd.read_csv('Data/table-4c.csv', skiprows=11, encoding='utf-8')
+        'ip_income': pd.read_csv('Data/table-4c.csv', skiprows=11, encoding='utf-8'),
+        'ip_income_total': pd.read_csv('Data/table-4d.csv', skiprows=11, encoding='utf-8')
     }
 
     # Clean column names for all datasets
@@ -46,7 +47,9 @@ def calculate_income_volatility(data, ne_universities):
 
     # 1. Research Income Volatility
     print("1. Research Income Volatility Analysis")
-    research_by_univ = data['research'].groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
+    # Only use Total type to avoid double counting
+    research_filtered = data['research'][data['research']['Type of income'] == 'Total']
+    research_by_univ = research_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
     
     # Calculate volatility (coefficient of variation) for each university
     research_volatility = research_by_univ.groupby('HE Provider')['Value'].agg(['mean', 'std']).reset_index()
@@ -69,7 +72,9 @@ def calculate_income_volatility(data, ne_universities):
 
     # 3. CPD Income Volatility
     print("3. CPD Income Volatility Analysis")
-    cpd_by_univ = data['cpd'].groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
+    # Only use Total revenue to avoid double counting
+    cpd_filtered = data['cpd'][data['cpd']['Category Marker'] == 'Total revenue']
+    cpd_by_univ = cpd_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
     
     cpd_volatility = cpd_by_univ.groupby('HE Provider')['Value'].agg(['mean', 'std']).reset_index()
     cpd_volatility['cv'] = cpd_volatility['std'] / cpd_volatility['mean']
@@ -80,7 +85,9 @@ def calculate_income_volatility(data, ne_universities):
 
     # 4. IP Income Volatility
     print("4. IP Income Volatility Analysis")
-    ip_by_univ = data['ip_income'].groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
+    # Only use Total IP revenues to avoid double counting
+    ip_filtered = data['ip_income_total'][data['ip_income_total']['Category Marker'] == 'Total IP revenues']
+    ip_by_univ = ip_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
     
     ip_volatility = ip_by_univ.groupby('HE Provider')['Value'].agg(['mean', 'std']).reset_index()
     ip_volatility['cv'] = ip_volatility['std'] / ip_volatility['mean']
@@ -105,8 +112,9 @@ def analyze_income_concentration(data, ne_universities):
         # Get all income sources for this university
         univ_income = {}
         
-        # Research income by source
-        research_data = data['research'][data['research']['HE Provider'] == univ]
+        # Research income by source - only use Total type to avoid double counting
+        research_data = data['research'][(data['research']['HE Provider'] == univ) & 
+                                       (data['research']['Type of income'] == 'Total')]
         if len(research_data) > 0:
             research_by_source = research_data.groupby('Source of public funding')['Value'].sum()
             univ_income['Research'] = research_by_source
@@ -117,20 +125,23 @@ def analyze_income_concentration(data, ne_universities):
             business_by_type = business_data.groupby('Type of service')[data['business'].columns[-1]].sum()
             univ_income['Business'] = business_by_type
         
-        # CPD income
-        cpd_data = data['cpd'][data['cpd']['HE Provider'] == univ]
+        # CPD income - only use Total revenue to avoid double counting
+        cpd_data = data['cpd'][(data['cpd']['HE Provider'] == univ) & 
+                              (data['cpd']['Category Marker'] == 'Total revenue')]
         if len(cpd_data) > 0:
             cpd_total = cpd_data['Value'].sum()
             univ_income['CPD'] = pd.Series([cpd_total], index=['CPD Total'])
         
-        # IP income
-        ip_data = data['ip_income'][data['ip_income']['HE Provider'] == univ]
+        # IP income - only use Total IP revenues to avoid double counting
+        ip_data = data['ip_income_total'][(data['ip_income_total']['HE Provider'] == univ) & 
+                                        (data['ip_income_total']['Category Marker'] == 'Total IP revenues')]
         if len(ip_data) > 0:
             ip_total = ip_data['Value'].sum()
             univ_income['IP'] = pd.Series([ip_total], index=['IP Total'])
         
-        # Regeneration income
-        regen_data = data['regeneration'][data['regeneration']['HE Provider'] == univ]
+        # Regeneration income - only use Total programmes to avoid double counting
+        regen_data = data['regeneration'][(data['regeneration']['HE Provider'] == univ) & 
+                                        (data['regeneration']['Programme'] == 'Total programmes')]
         if len(regen_data) > 0:
             regen_total = regen_data['Value'].sum()
             univ_income['Regeneration'] = pd.Series([regen_total], index=['Regeneration Total'])
@@ -271,13 +282,25 @@ def analyze_volatility_trends(data, ne_universities):
     trend_summary = {}
     
     for metric_name, table_name in [('Research', 'research'), ('Business', 'business'), 
-                                   ('CPD', 'cpd'), ('IP', 'ip_income')]:
+                                   ('CPD', 'cpd'), ('IP', 'ip_income_total')]:
         print(f"\n{metric_name} Income Trends - North East Universities:")
         print("=" * 80)
         
         metric_data = data[table_name]
         if table_name == 'business':
             value_col = metric_data.columns[-1]
+        elif table_name == 'research':
+            # Only use Total type to avoid double counting
+            metric_data = metric_data[metric_data['Type of income'] == 'Total']
+            value_col = 'Value'
+        elif table_name == 'cpd':
+            # Only use Total revenue to avoid double counting
+            metric_data = metric_data[metric_data['Category Marker'] == 'Total revenue']
+            value_col = 'Value'
+        elif table_name == 'ip_income_total':
+            # Only use Total IP revenues to avoid double counting
+            metric_data = metric_data[metric_data['Category Marker'] == 'Total IP revenues']
+            value_col = 'Value'
         else:
             value_col = 'Value'
         
@@ -432,12 +455,24 @@ def main():
     # Add trend analysis tables to markdown
     md_content += "## Income Trends Analysis\n\n"
     for metric_name, table_name in [('Research', 'research'), ('Business', 'business'), 
-                                   ('CPD', 'cpd'), ('IP', 'ip_income')]:
+                                   ('CPD', 'cpd'), ('IP', 'ip_income_total')]:
         md_content += f"### {metric_name} Income Trends - North East Universities\n\n"
         
         metric_data = data[table_name]
         if table_name == 'business':
             value_col = metric_data.columns[-1]
+        elif table_name == 'research':
+            # Only use Total type to avoid double counting
+            metric_data = metric_data[metric_data['Type of income'] == 'Total']
+            value_col = 'Value'
+        elif table_name == 'cpd':
+            # Only use Total revenue to avoid double counting
+            metric_data = metric_data[metric_data['Category Marker'] == 'Total revenue']
+            value_col = 'Value'
+        elif table_name == 'ip_income_total':
+            # Only use Total IP revenues to avoid double counting
+            metric_data = metric_data[metric_data['Category Marker'] == 'Total IP revenues']
+            value_col = 'Value'
         else:
             value_col = 'Value'
         

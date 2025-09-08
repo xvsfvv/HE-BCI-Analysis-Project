@@ -28,6 +28,7 @@ def load_data():
         'cpd': pd.read_csv('Data/table-2b.csv', skiprows=11, encoding='utf-8'),
         'regeneration': pd.read_csv('Data/table-3.csv', skiprows=11, encoding='utf-8'),
         'ip_income': pd.read_csv('Data/table-4c.csv', skiprows=11, encoding='utf-8'),
+        'ip_income_total': pd.read_csv('Data/table-4d.csv', skiprows=11, encoding='utf-8'),
         'public_engagement': pd.read_csv('Data/table-5.csv', skiprows=11, encoding='utf-8')
     }
 
@@ -47,7 +48,9 @@ def calculate_efficiency_metrics(data, ne_universities):
 
     # 1. Research Income Efficiency (per unit of staff time)
     print("1. Research Income Efficiency Analysis")
-    research_by_univ = data['research'].groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
+    # Only use Total type to avoid double counting
+    research_filtered = data['research'][data['research']['Type of income'] == 'Total']
+    research_by_univ = research_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
     
     # Get staff time from public engagement data
     staff_time = data['public_engagement'][data['public_engagement']['Metric'] == 'Academic staff time (days)']
@@ -80,7 +83,9 @@ def calculate_efficiency_metrics(data, ne_universities):
 
     # 3. IP Income Efficiency
     print("3. IP Income Efficiency Analysis")
-    ip_by_univ = data['ip_income'].groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
+    # Only use Total IP revenues to avoid double counting
+    ip_filtered = data['ip_income_total'][data['ip_income_total']['Category Marker'] == 'Total IP revenues']
+    ip_by_univ = ip_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
     ip_efficiency = ip_by_univ.merge(staff_time_by_univ, 
                                     on=['HE Provider', 'Academic Year'], 
                                     how='left')

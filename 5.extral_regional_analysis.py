@@ -28,20 +28,20 @@ def load_data():
     base_dir = Path(__file__).resolve().parent  
 
     # Income data
-    data['research'] = pd.read_csv(base_dir / 'table-1.csv', skiprows=11, encoding='utf-8')
-    data['business'] = pd.read_csv(base_dir / 'table-2a.csv', skiprows=11, encoding='utf-8')
-    data['cpd'] = pd.read_csv(base_dir / 'table-2b.csv', skiprows=11, encoding='utf-8')
-    data['regeneration'] = pd.read_csv(base_dir / 'table-3.csv', skiprows=11, encoding='utf-8')
+    data['research'] = pd.read_csv(base_dir / 'Data' / 'table-1.csv', skiprows=11, encoding='utf-8')
+    data['business'] = pd.read_csv(base_dir / 'Data' / 'table-2a.csv', skiprows=11, encoding='utf-8')
+    data['cpd'] = pd.read_csv(base_dir / 'Data' / 'table-2b.csv', skiprows=11, encoding='utf-8')
+    data['regeneration'] = pd.read_csv(base_dir / 'Data' / 'table-3.csv', skiprows=11, encoding='utf-8')
 
     # IP data
-    data['ip_disclosures'] = pd.read_csv(base_dir / 'table-4a.csv', skiprows=11, encoding='utf-8')
-    data['ip_licenses'] = pd.read_csv(base_dir / 'table-4b.csv', skiprows=11, encoding='utf-8')
-    data['ip_income'] = pd.read_csv(base_dir / 'table-4c.csv', skiprows=11, encoding='utf-8')
-    data['ip_income_total'] = pd.read_csv(base_dir / 'table-4d.csv', skiprows=11, encoding='utf-8')
-    data['spinouts'] = pd.read_csv(base_dir / 'table-4e.csv', skiprows=11, encoding='utf-8')
+    data['ip_disclosures'] = pd.read_csv(base_dir / 'Data' / 'table-4a.csv', skiprows=11, encoding='utf-8')
+    data['ip_licenses'] = pd.read_csv(base_dir / 'Data' / 'table-4b.csv', skiprows=11, encoding='utf-8')
+    data['ip_income'] = pd.read_csv(base_dir / 'Data' / 'table-4c.csv', skiprows=11, encoding='utf-8')
+    data['ip_income_total'] = pd.read_csv(base_dir / 'Data' / 'table-4d.csv', skiprows=11, encoding='utf-8')
+    data['spinouts'] = pd.read_csv(base_dir / 'Data' / 'table-4e.csv', skiprows=11, encoding='utf-8')
 
     # Public engagement data
-    data['public_engagement'] = pd.read_csv(base_dir / 'table-5.csv', skiprows=11, encoding='utf-8')
+    data['public_engagement'] = pd.read_csv(base_dir / 'Data' / 'table-5.csv', skiprows=11, encoding='utf-8')
 
     # Clean column names for all datasets
     for key in data:
@@ -61,30 +61,36 @@ def calculate_correlations(data):
     # Prepare metrics for correlation analysis
     metrics = {}
 
-    # Research income
-    metrics['Research Income'] = data['research'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Research income - only use Total type to avoid double counting
+    research_filtered = data['research'][data['research']['Type of income'] == 'Total']
+    metrics['Research Income'] = research_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
 
     # Business services income
     # For table-2a, the value column is the last column (unnamed)
     metrics['Business Income'] = data['business'].groupby(['HE Provider', 'Academic Year'])[
         data['business'].columns[-1]].sum()
 
-    # CPD income
-    metrics['CPD Income'] = data['cpd'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # CPD income - only use Total revenue to avoid double counting
+    cpd_filtered = data['cpd'][data['cpd']['Category Marker'] == 'Total revenue']
+    metrics['CPD Income'] = cpd_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
 
-    # Regeneration income
-    metrics['Regeneration Income'] = data['regeneration'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Regeneration income - only use Total programmes to avoid double counting
+    regeneration_filtered = data['regeneration'][data['regeneration']['Programme'] == 'Total programmes']
+    metrics['Regeneration Income'] = regeneration_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
 
     # IP metrics
     metrics['IP Disclosures'] = data['ip_disclosures'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
     metrics['IP Licenses'] = data['ip_licenses'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
-    metrics['IP Income'] = data['ip_income'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # IP Income - only use Total IP revenues to avoid double counting
+    ip_income_filtered = data['ip_income_total'][data['ip_income_total']['Category Marker'] == 'Total IP revenues']
+    metrics['IP Income'] = ip_income_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
 
     # Spin-out employment
     metrics['Spin-out Employment'] = data['spinouts'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
 
-    # Public engagement
-    metrics['Public Engagement'] = data['public_engagement'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Public engagement - only use Attendees to avoid mixing units
+    pe_attendees = data['public_engagement'][data['public_engagement']['Metric'] == 'Attendees']
+    metrics['Public Engagement'] = pe_attendees.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
 
     # Create correlation matrix
     corr_matrix = pd.DataFrame(metrics).corr()
@@ -117,12 +123,18 @@ def calculate_correlations(data):
 def analyze_rankings(data):
     """Analyze ranking changes over time and return detailed ranking tables"""
     metrics = {}
-    metrics['Research Income'] = data['research'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Research income - only use Total type to avoid double counting
+    research_filtered = data['research'][data['research']['Type of income'] == 'Total']
+    metrics['Research Income'] = research_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
     metrics['Business Income'] = data['business'].groupby(['HE Provider', 'Academic Year'])[
         data['business'].columns[-1]].sum()
     metrics['IP Disclosures'] = data['ip_disclosures'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
-    metrics['IP Income'] = data['ip_income'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
-    metrics['Public Engagement'] = data['public_engagement'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # IP Income - only use Total IP revenues to avoid double counting
+    ip_income_filtered = data['ip_income_total'][data['ip_income_total']['Category Marker'] == 'Total IP revenues']
+    metrics['IP Income'] = ip_income_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Public engagement - only use Attendees to avoid mixing units
+    pe_attendees = data['public_engagement'][data['public_engagement']['Metric'] == 'Attendees']
+    metrics['Public Engagement'] = pe_attendees.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
     rankings = {}
     for metric_name, metric_data in metrics.items():
         # Calculate rank for each year

@@ -23,31 +23,33 @@ def analyze_public_engagement():
     
     print("\n=== Public Engagement Analysis ===\n")
     
-    # 1. Analysis by Nature of Event
-    print("Nature of Event Distribution (Durham):")
-    nature_dist = durham_data.groupby('Nature of Event')['Value'].sum()
+    # 1. Analysis by Nature of Event (Attendees only)
+    print("Nature of Event Distribution (Durham) - Attendees:")
+    attendees_data = durham_data[durham_data['Metric'] == 'Attendees']
+    nature_dist = attendees_data.groupby('Nature of Event')['Value'].sum()
     print(nature_dist)
     
-    # Calculate national statistics
+    # Calculate national statistics for attendees
     total_universities = df['HE Provider'].nunique()
-    durham_total = nature_dist.sum()
-    national_avg = df.groupby('HE Provider')['Value'].sum().mean()
-    durham_rank = (df.groupby('HE Provider')['Value'].sum() > durham_total).sum() + 1
+    durham_attendees = nature_dist.sum()
+    national_attendees = df[df['Metric'] == 'Attendees'].groupby('HE Provider')['Value'].sum()
+    national_avg_attendees = national_attendees.mean()
+    durham_rank_attendees = (national_attendees > durham_attendees).sum() + 1
     
-    print("\nNational Statistics for Public Engagement:")
+    print("\nNational Statistics for Public Engagement (Attendees):")
     print(f"Total number of universities: {total_universities}")
-    print(f"Durham's rank: {durham_rank}/{total_universities}")
-    print(f"National average: {national_avg:,.0f}")
-    print(f"Durham's value: {durham_total:,.0f}")
-    print(f"Difference from national average: {durham_total - national_avg:,.0f}")
+    print(f"Durham's rank: {durham_rank_attendees}/{total_universities}")
+    print(f"National average: {national_avg_attendees:,.0f}")
+    print(f"Durham's value: {durham_attendees:,.0f}")
+    print(f"Difference from national average: {durham_attendees - national_avg_attendees:,.0f}")
     
     # Plot nature of event distribution
     plt.figure(figsize=(12, 6))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(nature_dist)))
     ax = plt.bar(nature_dist.index, nature_dist.values, color=colors)
-    plt.title('Public Engagement by Nature of Event (Durham)')
+    plt.title('Public Engagement by Nature of Event (Durham) - Attendees')
     plt.xlabel('Nature of Event')
-    plt.ylabel('Total Value')
+    plt.ylabel('Number of Attendees')
     plt.xticks(rotation=45)
     
     # Add value labels on top of bars
@@ -57,18 +59,18 @@ def analyze_public_engagement():
     plt.tight_layout()
     save_plot(plt.gcf(), '1.1_nature_of_event.png')
     
-    # 2. Analysis by Type of Event
-    print("\nType of Event Distribution (Durham):")
-    type_dist = durham_data.groupby('Type of event')['Value'].sum()
+    # 2. Analysis by Type of Event (Attendees only)
+    print("\nType of Event Distribution (Durham) - Attendees:")
+    type_dist = attendees_data.groupby('Type of event')['Value'].sum()
     print(type_dist)
     
     # Plot type of event distribution
     plt.figure(figsize=(12, 6))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(type_dist)))
     ax = plt.bar(type_dist.index, type_dist.values, color=colors)
-    plt.title('Public Engagement by Type of Event (Durham)')
+    plt.title('Public Engagement by Type of Event (Durham) - Attendees')
     plt.xlabel('Type of Event')
-    plt.ylabel('Total Value')
+    plt.ylabel('Number of Attendees')
     plt.xticks(rotation=45)
     
     # Add value labels on top of bars
@@ -122,22 +124,23 @@ def analyze_public_engagement():
     plt.tight_layout()
     save_plot(plt.gcf(), '1.4_staff_time_by_type.png')
     
-    # 5. North East Universities Comparison
-    print("\nNorth East Universities Comparison:")
+    # 5. North East Universities Comparison (Attendees only)
+    print("\nNorth East Universities Comparison - Attendees:")
     ne_universities = ['University of Durham', 'Newcastle University', 
                       'University of Northumbria at Newcastle', 'Teesside University',
                       'The University of Sunderland']
-    ne_data = df[df['HE Provider'].isin(ne_universities)]
-    ne_totals = ne_data.groupby('HE Provider')['Value'].sum()
+    ne_attendees = df[(df['HE Provider'].isin(ne_universities)) & 
+                      (df['Metric'] == 'Attendees')]
+    ne_totals = ne_attendees.groupby('HE Provider')['Value'].sum()
     print(ne_totals)
     
     # Plot North East universities comparison
     plt.figure(figsize=(12, 6))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(ne_totals)))
     ax = plt.bar(ne_totals.index, ne_totals.values, color=colors)
-    plt.title('Public Engagement Comparison - North East Universities')
+    plt.title('Public Engagement Comparison - North East Universities (Attendees)')
     plt.xlabel('University')
-    plt.ylabel('Total Value')
+    plt.ylabel('Number of Attendees')
     plt.xticks(rotation=45)
     
     # Add value labels on top of bars

@@ -52,14 +52,17 @@ def analyze_ip():
     print(f"Durham's value: {national_ip['University of Durham']:,.0f}")
     print(f"Difference from national average: {national_ip['University of Durham'] - national_avg:,.0f}")
     
-    fig = plt.figure(figsize=(12, 6))
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(disclosure_type)))
-    ax = plt.bar(disclosure_type.index, disclosure_type.values, color=colors)
-    plt.title('IP Disclosures by Type (Durham)')
-    plt.xticks(rotation=45)
-    # Add value labels on top of bars
+    fig = plt.figure(figsize=(18, 8))
+    colors = plt.cm.viridis(np.linspace(0, 1, len(disclosure_type)))
+    y_pos = np.arange(len(disclosure_type))
+    ax = plt.barh(y_pos, disclosure_type.values, color=colors)
+    plt.title('IP Disclosures by Type (Durham)', fontsize=14, fontweight='bold')
+    plt.yticks(y_pos, disclosure_type.index)
+    plt.xlabel('Number of Disclosures')
+    # Add value labels on the right side of bars
     for i, v in enumerate(disclosure_type.values):
-        plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
+        plt.text(v, i, f'{v:,.0f}', ha='left', va='center', fontweight='bold')
+    plt.grid(axis='x', alpha=0.3)
     plt.tight_layout()
     save_plot(fig, '1.1_ip_disclosure_type.png')
     
@@ -68,14 +71,15 @@ def analyze_ip():
     print("\nYearly Disclosure Trend (Durham):")
     print(yearly_disclosures)
     
-    fig = plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 11))
     for disc_type in yearly_disclosures['Type of disclosure or patent'].unique():
         data = yearly_disclosures[yearly_disclosures['Type of disclosure or patent'] == disc_type]
         plt.plot(data['Academic Year'], data['Value'], label=disc_type, marker='o')
     plt.title('IP Disclosures Trend (Durham)')
     plt.xticks(rotation=45)
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.legend(bbox_to_anchor=(0.5, 1.02), loc='lower center', ncol=1)
     plt.tight_layout()
+    plt.subplots_adjust(top=0.75)
     save_plot(fig, '1.2_ip_disclosure_trend.png')
     
     # 1.3 North East Universities Comparison
@@ -167,19 +171,14 @@ def analyze_ip():
     print("\n=== IP Income Analysis ===")
     
     # 3.1 Income Source Analysis (Durham only)
-    durham_income = pd.concat([
-        tables['table4c'][tables['table4c']['HE Provider'] == 'University of Durham'],
-        tables['table4d'][tables['table4d']['HE Provider'] == 'University of Durham']
-    ])
+    # Use only table4c for detailed income source analysis
+    durham_income = tables['table4c'][tables['table4c']['HE Provider'] == 'University of Durham']
     income_source = durham_income.groupby('Income source')['Value'].sum()
     print("\nIncome Source Distribution (Durham):")
     print(income_source)
     
-    # National statistics for IP income
-    national_income = pd.concat([
-        tables['table4c'],
-        tables['table4d']
-    ]).groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
+    # National statistics for IP income - use only table4d Total IP revenues to avoid double counting
+    national_income = tables['table4d'][tables['table4d']['Category Marker'] == 'Total IP revenues'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     durham_rank = national_income.index.get_loc('University of Durham') + 1
     total_universities = len(national_income)
     national_avg = national_income.mean()
@@ -218,10 +217,8 @@ def analyze_ip():
     save_plot(fig, '3.2_ip_income_org_type.png')
     
     # 3.3 North East Universities Comparison
-    ne_income = pd.concat([
-        tables['table4c'][tables['table4c']['HE Provider'].isin(north_east_universities)],
-        tables['table4d'][tables['table4d']['HE Provider'].isin(north_east_universities)]
-    ])
+    ne_income = tables['table4d'][(tables['table4d']['HE Provider'].isin(north_east_universities)) & 
+                                  (tables['table4d']['Category Marker'] == 'Total IP revenues')]
     ne_income_total = ne_income.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     print("\nTotal IP Income by University (North East):")
     print(ne_income_total)
@@ -259,14 +256,53 @@ def analyze_ip():
     print(f"Durham's value: {national_spin['University of Durham']:,.0f}")
     print(f"Difference from national average: {national_spin['University of Durham'] - national_avg:,.0f}")
     
-    fig = plt.figure(figsize=(12, 6))
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(metric_type)))
-    ax = plt.bar(metric_type.index, metric_type.values, color=colors)
-    plt.title('Spin-off Companies by Metric Type (Durham)')
-    plt.xticks(rotation=45)
-    # Add value labels on top of bars
-    for i, v in enumerate(metric_type.values):
-        plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
+    # Create radar chart instead of bar chart
+    fig = plt.figure(figsize=(12, 12))
+    
+    # Prepare data for radar chart with shortened labels
+    categories = list(metric_type.index)
+    values = list(metric_type.values)
+    
+    # Create shortened labels for better display
+    short_labels = [
+        'Employment (FTE)',
+        'Turnover (£k)',
+        'External Investment (£k)',
+        'New Companies',
+        'Active Firms',
+        'Survived 3+ Years'
+    ]
+    
+    # Number of variables
+    N = len(categories)
+    
+    # Compute angle for each axis
+    angles = [n / float(N) * 2 * np.pi for n in range(N)]
+    angles += angles[:1]  # Complete the circle
+    
+    # Add the first value at the end to close the circle
+    values += values[:1]
+    
+    # Create the radar chart
+    ax = plt.subplot(111, projection='polar')
+    ax.plot(angles, values, 'o-', linewidth=2, label='Durham', color='#1f77b4')
+    ax.fill(angles, values, alpha=0.25, color='#1f77b4')
+    
+    # Add shortened category labels
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(short_labels, fontsize=11)
+    
+    # Add value labels
+    for angle, value, category in zip(angles[:-1], values[:-1], categories):
+        ax.text(angle, value + max(values) * 0.05, f'{value:,.0f}', 
+                ha='center', va='center', fontweight='bold', fontsize=9)
+    
+    # Customize the chart
+    ax.set_ylim(0, max(values) * 1.2)
+    ax.set_title('Spin-off Companies by Metric Type (Durham)', 
+                 size=14, fontweight='bold', pad=20)
+    ax.grid(True)
+    
     plt.tight_layout()
     save_plot(fig, '4.1_spin_metric_type.png')
     
@@ -275,14 +311,40 @@ def analyze_ip():
     print("\nCategory Distribution (Durham):")
     print(category)
     
-    fig = plt.figure(figsize=(12, 6))
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(category)))
-    ax = plt.bar(category.index, category.values, color=colors)
-    plt.title('Spin-off Companies by Category (Durham)')
-    plt.xticks(rotation=45)
-    # Add value labels on top of bars
-    for i, v in enumerate(category.values):
-        plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
+    # Create pie chart instead of bar chart
+    fig = plt.figure(figsize=(12, 10))
+    
+    # Prepare data for pie chart with shortened labels
+    labels = list(category.index)
+    sizes = list(category.values)
+    colors = plt.cm.Set3(np.linspace(0, 1, len(labels)))
+    
+    # Create shortened labels for better display
+    short_labels = [
+        'Other Spin-outs',
+        'Social Enterprises',
+        'HE Provider Owned',
+        'Staff Start-ups',
+        'Student Start-ups'
+    ]
+    
+    # Create pie chart with percentage labels
+    wedges, texts, autotexts = plt.pie(sizes, labels=short_labels, colors=colors, autopct='%1.1f%%',
+                                       startangle=90, textprops={'fontsize': 11})
+    
+    # Customize the pie chart
+    plt.title('Spin-off Companies by Category (Durham)', fontsize=14, fontweight='bold', pad=20)
+    
+    # Add value labels outside the pie
+    for i, (wedge, size) in enumerate(zip(wedges, sizes)):
+        angle = (wedge.theta2 + wedge.theta1) / 2
+        x = 1.2 * np.cos(np.radians(angle))
+        y = 1.2 * np.sin(np.radians(angle))
+        plt.annotate(f'{size:,.0f}', xy=(x, y), ha='center', va='center', 
+                    fontweight='bold', fontsize=9)
+    
+    # Equal aspect ratio ensures that pie is drawn as a circle
+    plt.axis('equal')
     plt.tight_layout()
     save_plot(fig, '4.2_spin_category.png')
     

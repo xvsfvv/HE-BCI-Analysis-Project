@@ -105,16 +105,20 @@ def extract_clustering_features(data, ne_universities):
         
         # Calculate features for each metric
         metrics = {
-            'research': 'Value',
-            'business': data['business'].columns[-1],
-            'cpd': 'Value',
-            'regeneration': 'Value',
-            'ip_income': 'Value'
+            'research': ('Value', 'Type of income', 'Total'),
+            'business': (data['business'].columns[-1], None, None),
+            'cpd': ('Value', 'Category Marker', 'Total revenue'),
+            'regeneration': ('Value', 'Programme', 'Total programmes'),
+            'ip_income': ('Value', None, None)
         }
         
-        for metric_name, value_col in metrics.items():
+        for metric_name, (value_col, filter_col, filter_val) in metrics.items():
             metric_data = data[metric_name]
             univ_data = metric_data[metric_data['HE Provider'] == univ]
+            
+            # Apply filtering if specified
+            if filter_col is not None and filter_val is not None and filter_col in univ_data.columns:
+                univ_data = univ_data[univ_data[filter_col] == filter_val]
             
             if len(univ_data) > 0:
                 # Aggregate by year for CPD data
@@ -422,16 +426,16 @@ def predict_trends(data, ne_universities):
 
     # Define metrics to analyze
     metrics = {
-        'Research Income': ('research', 'Value'),
-        'Business Income': ('business', data['business'].columns[-1]),
-        'CPD Income': ('cpd', 'Value'),
-        'Regeneration Income': ('regeneration', 'Value'),
-        'IP Disclosures': ('ip_disclosures', 'Value'),
-        'IP Licenses': ('ip_licenses', 'Value'),
-        'IP Income': ('ip_income', 'Value'),
-        'Total IP Income': ('ip_income_total', 'Value'),
-        'Spin-out Companies': ('spinouts', 'Value'),
-        'Public Engagement': ('public_engagement', 'Value')
+        'Research Income': ('research', 'Value', 'Type of income', 'Total'),
+        'Business Income': ('business', data['business'].columns[-1], None, None),
+        'CPD Income': ('cpd', 'Value', 'Category Marker', 'Total revenue'),
+        'Regeneration Income': ('regeneration', 'Value', 'Programme', 'Total programmes'),
+        'IP Disclosures': ('ip_disclosures', 'Value', None, None),
+        'IP Licenses': ('ip_licenses', 'Value', None, None),
+        'IP Income': ('ip_income', 'Value', None, None),
+        'Total IP Income': ('ip_income_total', 'Value', 'Category Marker', 'Total IP revenues'),
+        'Spin-out Companies': ('spinouts', 'Value', None, None),
+        'Public Engagement': ('public_engagement', 'Value', 'Metric', 'Attendees')
     }
 
     methods = [
@@ -450,13 +454,18 @@ def predict_trends(data, ne_universities):
         results_summary = {}  # Collect all results for this method
         all_methods_summary[method_name] = {}  # Init for this method
         plt.figure(figsize=(25, 12))
-        for i, (metric_name, (dataset, value_col)) in enumerate(metrics.items(), 1):
+        for i, (metric_name, (dataset, value_col, filter_col, filter_val)) in enumerate(metrics.items(), 1):
             print(f"\n{metric_name} ({method_name}):")
             results_summary[metric_name] = {}
             all_methods_summary[method_name][metric_name] = {}  # Init for this metric
             plt.subplot(2, 5, i)
             try:
                 df = data[dataset]
+                
+                # Apply filtering if specified
+                if filter_col is not None and filter_val is not None and filter_col in df.columns:
+                    df = df[df[filter_col] == filter_val]
+                
                 if 'HE Provider' in df.columns and 'Academic Year' in df.columns and value_col in df.columns:
                     df_agg = df.groupby(['HE Provider', 'Academic Year'])[value_col].sum().reset_index()
                 else:

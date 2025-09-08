@@ -63,12 +63,27 @@ def create_dataset_visualizations(all_data):
     
     for inst in ne_institutions:
         yearly_means = []
-        for df in all_data.values():
+        for file_name, df in all_data.items():
             if 'HE Provider' in df.columns and 'Value' in df.columns and 'Academic Year' in df.columns:
                 inst_data = df[df['HE Provider'] == inst]
                 if not inst_data.empty:
-                    yearly_mean = inst_data.groupby('Academic Year')['Value'].mean()
-                    yearly_means.append(yearly_mean)
+                    # Only use Total values to avoid double counting
+                    if file_name == 'table-1.csv' and 'Type of income' in df.columns:
+                        # For research income, only use 'Total' type
+                        inst_data_filtered = inst_data[inst_data['Type of income'] == 'Total']
+                    elif file_name == 'table-2b.csv' and 'Category Marker' in df.columns:
+                        # For CPD income, only use 'Total revenue' category
+                        inst_data_filtered = inst_data[inst_data['Category Marker'] == 'Total revenue']
+                    elif file_name == 'table-3.csv' and 'Programme' in df.columns:
+                        # For regeneration income, only use 'Total programmes'
+                        inst_data_filtered = inst_data[inst_data['Programme'] == 'Total programmes']
+                    else:
+                        # For other tables, use all data
+                        inst_data_filtered = inst_data
+                    
+                    if not inst_data_filtered.empty:
+                        yearly_mean = inst_data_filtered.groupby('Academic Year')['Value'].mean()
+                        yearly_means.append(yearly_mean)
         
         if yearly_means:
             combined_means = pd.concat(yearly_means).groupby(level=0).mean()
@@ -100,7 +115,26 @@ def create_dataset_visualizations(all_data):
     ax1.set_xticklabels(all_data.keys(), rotation=45)
     
     # 4.2 Average Values per File
-    avg_values = [df['Value'].mean() if 'Value' in df.columns else 0 for df in all_data.values()]
+    avg_values = []
+    for file_name, df in all_data.items():
+        if 'Value' in df.columns:
+            # Only use Total values to avoid double counting
+            if file_name == 'table-1.csv' and 'Type of income' in df.columns:
+                # For research income, only use 'Total' type
+                df_filtered = df[df['Type of income'] == 'Total']
+            elif file_name == 'table-2b.csv' and 'Category Marker' in df.columns:
+                # For CPD income, only use 'Total revenue' category
+                df_filtered = df[df['Category Marker'] == 'Total revenue']
+            elif file_name == 'table-3.csv' and 'Programme' in df.columns:
+                # For regeneration income, only use 'Total programmes'
+                df_filtered = df[df['Programme'] == 'Total programmes']
+            else:
+                # For other tables, use all data
+                df_filtered = df
+            avg_values.append(df_filtered['Value'].mean())
+        else:
+            avg_values.append(0)
+    
     ax2.bar(x_positions, avg_values)
     ax2.set_title('Average Values per File')
     ax2.set_xticks(x_positions)

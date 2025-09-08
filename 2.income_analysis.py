@@ -35,12 +35,12 @@ def analyze_income():
     
     # 1.1 Funding Source Analysis (Durham only)
     durham_data = tables['table1'][tables['table1']['HE Provider'] == 'University of Durham']
-    funding_source = durham_data.groupby('Source of public funding')['Value'].sum()
+    funding_source = durham_data[durham_data['Type of income'] == 'Total'].groupby('Source of public funding')['Value'].sum()
     print("\nFunding Source Distribution (Durham):")
     print(funding_source)
     
     # National statistics for research income
-    national_research = tables['table1'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
+    national_research = tables['table1'][tables['table1']['Type of income'] == 'Total'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     durham_rank = national_research.index.get_loc('University of Durham') + 1
     total_universities = len(national_research)
     national_avg = national_research.mean()
@@ -79,7 +79,7 @@ def analyze_income():
     save_plot(fig, '1.2_research_income_type.png')
     
     # 1.3 Time Trend Analysis (Durham only)
-    yearly_income = durham_data.groupby(['Academic Year', 'Source of public funding'])['Value'].sum().reset_index()
+    yearly_income = durham_data[durham_data['Type of income'] == 'Total'].groupby(['Academic Year', 'Source of public funding'])['Value'].sum().reset_index()
     print("\nYearly Income Trend (Durham):")
     print(yearly_income)
     
@@ -97,7 +97,8 @@ def analyze_income():
     print("\n=== North East Universities Comparison ===")
     
     # Compare total research income
-    ne_research = tables['table1'][tables['table1']['HE Provider'].isin(north_east_universities)]
+    ne_research = tables['table1'][(tables['table1']['HE Provider'].isin(north_east_universities)) & 
+                                  (tables['table1']['Type of income'] == 'Total')]
     ne_total = ne_research.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     print("\nTotal Research Income by University (North East):")
     print(ne_total)
@@ -114,7 +115,7 @@ def analyze_income():
     save_plot(fig, '1.4_research_ne_comparison.png')
     
     # Compare with national average
-    national_avg = tables['table1'].groupby('HE Provider')['Value'].sum().mean()
+    national_avg = tables['table1'][tables['table1']['Type of income'] == 'Total'].groupby('HE Provider')['Value'].sum().mean()
     print("\nNational Average Research Income:", national_avg)
     print("Durham's Research Income:", ne_total['University of Durham'])
     print("Difference from National Average:", ne_total['University of Durham'] - national_avg)
@@ -210,7 +211,7 @@ def analyze_income():
     print(category)
     
     # National statistics for CPD
-    national_cpd = tables['table2b'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
+    national_cpd = tables['table2b'][tables['table2b']['Category Marker'] == 'Total revenue'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     durham_rank = national_cpd.index.get_loc('University of Durham') + 1
     total_universities = len(national_cpd)
     national_avg = national_cpd.mean()
@@ -249,7 +250,8 @@ def analyze_income():
     save_plot(fig, '3.2_cpd_unit_type.png')
     
     # 3.3 North East Universities CPD Comparison
-    ne_cpd = tables['table2b'][tables['table2b']['HE Provider'].isin(north_east_universities)]
+    ne_cpd = tables['table2b'][(tables['table2b']['HE Provider'].isin(north_east_universities)) & 
+                              (tables['table2b']['Category Marker'] == 'Total revenue')]
     ne_cpd_total = ne_cpd.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     print("\nTotal CPD Income by University (North East):")
     print(ne_cpd_total)
@@ -275,7 +277,7 @@ def analyze_income():
     print(programme)
     
     # National statistics for regeneration and development
-    national_regeneration = tables['table3'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
+    national_regeneration = tables['table3'][tables['table3']['Programme'] == 'Total programmes'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     durham_rank = national_regeneration.index.get_loc('University of Durham') + 1
     total_universities = len(national_regeneration)
     national_avg = national_regeneration.mean()
@@ -303,7 +305,7 @@ def analyze_income():
     save_plot(fig, '4.1_regeneration_programme.png')
     
     # 4.2 Time Trend Analysis (Durham only)
-    yearly_regeneration = durham_regeneration.groupby(['Academic Year', 'Programme'])['Value'].sum().reset_index()
+    yearly_regeneration = durham_regeneration[durham_regeneration['Programme'] == 'Total programmes'].groupby(['Academic Year', 'Programme'])['Value'].sum().reset_index()
     print("\nYearly Regeneration Trend (Durham):")
     print(yearly_regeneration)
     
@@ -318,7 +320,8 @@ def analyze_income():
     save_plot(fig, '4.2_regeneration_time_trend.png')
     
     # 4.3 North East Universities Regeneration Comparison
-    ne_regeneration = tables['table3'][tables['table3']['HE Provider'].isin(north_east_universities)]
+    ne_regeneration = tables['table3'][(tables['table3']['HE Provider'].isin(north_east_universities)) & 
+                                      (tables['table3']['Programme'] == 'Total programmes')]
     ne_regeneration_total = ne_regeneration.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     print("\nTotal Regeneration Income by University (North East):")
     print(ne_regeneration_total)
@@ -340,10 +343,13 @@ def analyze_income():
     # Calculate total income for each university
     total_income = {}
     for uni in north_east_universities:
-        research = tables['table1'][tables['table1']['HE Provider'] == uni]['Value'].sum()
+        research = tables['table1'][(tables['table1']['HE Provider'] == uni) & 
+                                  (tables['table1']['Type of income'] == 'Total')]['Value'].sum()
         services = tables['table2a'][tables['table2a']['HE Provider'] == uni]['Number/Value'].sum()
-        cpd = tables['table2b'][tables['table2b']['HE Provider'] == uni]['Value'].sum()
-        regeneration = tables['table3'][tables['table3']['HE Provider'] == uni]['Value'].sum()
+        cpd = tables['table2b'][(tables['table2b']['HE Provider'] == uni) & 
+                               (tables['table2b']['Category Marker'] == 'Total revenue')]['Value'].sum()
+        regeneration = tables['table3'][(tables['table3']['HE Provider'] == uni) & 
+                                       (tables['table3']['Programme'] == 'Total programmes')]['Value'].sum()
         total_income[uni] = research + services + cpd + regeneration
     
     total_income = pd.Series(total_income).sort_values(ascending=False)

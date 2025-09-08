@@ -73,7 +73,7 @@ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
         {\LARGE \textbf{Analysing Higher Education Business and Community Interaction (HE-BCI) Data for Durham University and the North East of England}} \\[1cm]
         {
         {Student Name [2025]} \\ {Department of xxx, xxx University} \\ 
-        \href{https://github.com/xvsfvv/HE-BCI-Analysis-Project}{GitHub Repository}} \\[1cm]
+        \href{https://github.com/xvsfvv/HE-BCI-Analysis-Project}{GitHub Repository: https://github.com/xvsfvv/HE-BCI-Analysis-Project}} \\[1cm]
         
     \end{center}
     
@@ -280,11 +280,11 @@ Several data quality issues were identified, primarily related to missing values
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{Fig/figure1.missing_values_comparison.png}
-\caption{Missing values in North East}
+\caption{Missing values across all tables}
 \label{fig:missing-values}
 \end{figure}
 
-In the North East region subset: Table 1 contained 0 missing values in the column. Table 2a exhibited moderate data gaps, with 600 missing values in the column ($5\%$ of all cells). Table 2b was fully complete, with 0 missing entries across key fields. Table 3 reported 40 missing values in the column. For the intellectual property data: Table 4a, Table 4b, Table 4c, Table 4d, and Table 4e all contained no missing values. Table 5, covering social and cultural engagement events, also exhibited zero missing values.
+In the dataset: Table 1 contained 25 missing values in the Value column. Table 2a exhibited moderate data gaps, with 22,500 missing values in the Unit column and 12 missing values in the Number/Value column. Table 2b was largely complete, with 5 missing values in the Value column. Table 3 reported 1,452 missing values in the Value column. For the intellectual property data: Table 4a and Table 4b contained no missing values, while Table 4c had 9 missing values, Table 4d had 5 missing values, and Table 4e had 10 missing values in the Value column. Table 5, covering social and cultural engagement events, exhibited zero missing values.
 
 \subsubsection{Data Consistency}
 
@@ -318,11 +318,11 @@ As part of initial data exploration, average values for each of the five North E
 
 \subsubsection{Collaborative Research Income}
 
-Durham University's collaborative research income totaled \textsterling 639,706, with a substantial portion (\textsterling 194,044) coming from major public funders such as UKRI (excluding Research England), the Royal Society, and the British Academy. Additional sources included EU government funding (\textsterling 55,065), BEIS Research Councils (\textsterling 36,656), other UK government departments (\textsterling 22,270), and other smaller contributors (\textsterling 11,818).
+Durham University's collaborative research income totaled \textsterling 216,850, with a substantial portion (\textsterling 66,123) coming from major public funders such as UKRI (excluding Research England), the Royal Society, and the British Academy. Additional sources included EU government funding (\textsterling 17,445), BEIS Research Councils (\textsterling 13,095), other UK government departments (\textsterling 7,273), and other smaller contributors (\textsterling 4,489).
 
 The income structure shows that public funding accounted for \textsterling 173,280, supplemented by collaborative contributions of \textsterling 11,626 in cash and \textsterling 31,944 in kind. Compared to the previous year's total of \textsterling 206,006, this indicates a relatively stable financial input from both institutional and collaborative sources.
 
-Durham University ranked 33rd out of 227 higher education institutions in the UK for collaborative research income, exceeding the national average by \textsterling 255,512, with the national average recorded at \textsterling 384,194. This ranking reflects Durham's strong national standing in securing competitive research funding. Within the North East region, Durham placed second in collaborative research income, behind Newcastle University (\textsterling 3,273,854), and significantly outperformed regional peers including Northumbria (\textsterling 384,788), Teesside (\textsterling 184,792), and Sunderland (\textsterling 8,226), demonstrating its leading role in regional research collaborations.
+Durham University ranked 33rd out of 228 higher education institutions in the UK for collaborative research income, exceeding the national average by \textsterling 87,327, with the national average recorded at \textsterling 129,523. This ranking reflects Durham's strong national standing in securing competitive research funding. Within the North East region, Durham placed second in collaborative research income, behind Newcastle University (\textsterling 1,105,304), and significantly outperformed regional peers including Northumbria (\textsterling 134,470), Teesside (\textsterling 68,844), and Sunderland (\textsterling 2,744), demonstrating its leading role in regional research collaborations.
 
 \begin{figure}[h]
 \centering
@@ -411,7 +411,7 @@ The business services portfolio shows a well-balanced distribution between contr
 
 Durham University delivered 98,190 learner days through CPD and continuing education courses, generating \textsterling 8,357 in revenue. Non-commercial organisations accounted for 4,426 learner days, followed by individual learners (2,354 days), other commercial businesses (1,521 days), and SMEs (56 days), reflecting wide outreach but limited financial yield.
 
-The activity involved 98,190 learner days and generated \textsterling 16,714 (in \textsterling 000s), highlighting a substantial investment of academic time and institutional effort in delivering CPD and continuing education, even though the income per learner day remained relatively low. Durham ranked fifth in the North East for CPD income, trailing behind Teesside (\textsterling 2,077,012), Northumbria (\textsterling 514,226), Newcastle (\textsterling 222,793), and Sunderland (\textsterling 144,043). Nationally, Durham ranked 94th out of 228 institutions and was \textsterling 120,751 below the national average, suggesting an opportunity for growth in monetizing its CPD offerings.
+The activity involved 98,190 learner days and generated \textsterling 16,714 (in \textsterling 000s), highlighting a substantial investment of academic time and institutional effort in delivering CPD and continuing education, even though the income per learner day remained relatively low. Durham ranked fifth in the North East for CPD income, trailing behind Northumbria (\textsterling 74,062), Teesside (\textsterling 71,538), Newcastle (\textsterling 24,849), and Sunderland (\textsterling 14,229). Nationally, Durham ranked 123rd out of 228 institutions and was \textsterling 21,669 below the national average, suggesting an opportunity for growth in monetizing its CPD offerings.
 
 Table~\ref{tab:cpd-analysis} illustrates the distribution of CPD activities across different categories and organizational types, providing insights into Durham's continuing education portfolio structure. While the CPD activities show significant time investment in terms of learner days, the financial returns are relatively low compared to other regional universities. This suggests potential for optimization in CPD delivery and pricing strategies to better align with market expectations.
 \vspace{0.3cm}
@@ -427,7 +427,7 @@ Table~\ref{tab:cpd-analysis} illustrates the distribution of CPD activities acro
 \hline Other (non-SME) commercial businesses & Days & 1,521 & 1,521 & 1.00 \\
 \hline SMEs & Days & 56 & 56 & 1.00 \\
 \hline \textbf{Total CPD Activities} & \textbf{Days} & \textbf{98,190} & \textbf{8,357} & \textbf{0.085} \\
-\hline \multicolumn{2}{|l|}{\textbf{National Performance}} & \textbf{Rank: 94/228} & \textbf{National Average: \textsterling 235,655} & \textbf{Difference: -\textsterling 120,751} \\
+\hline \multicolumn{2}{|l|}{\textbf{National Performance}} & \textbf{Rank: 123/228} & \textbf{National Average: \textsterling 30,026} & \textbf{Difference: -\textsterling 21,669} \\
 \hline
 \end{tabular}
 }
@@ -445,9 +445,9 @@ The CPD analysis reveals Durham's strong engagement in continuing education deli
 
 \subsubsection{Regeneration and Development}
 
-Durham University reported a total of \textsterling 39,570 in regeneration and development income, with capital income accounting for \textsterling 13,026 (32.9\%). Additional sources included ERDF (\textsterling 4,171), UK government funds (\textsterling 3,989), the UK Shared Prosperity Fund (\textsterling 1,119), other regeneration grants (\textsterling 945), and miscellaneous sources (\textsterling 3,048), demonstrating a varied funding profile.
+Durham University reported a total of \textsterling 13,272 in regeneration and development income, with capital income accounting for \textsterling 13,026 (98.1\%). Additional sources included ERDF (\textsterling 4,171), UK government funds (\textsterling 3,989), the UK Shared Prosperity Fund (\textsterling 1,119), other regeneration grants (\textsterling 945), and miscellaneous sources (\textsterling 3,048), demonstrating a varied funding profile.
 
-In the North East region, Durham ranked third in regeneration income, following Sunderland (\textsterling 69,209) and Teesside (\textsterling 55,019), but ahead of Newcastle (\textsterling 23,940) and Northumbria (\textsterling 7,783). On the national scale, Durham placed 41st out of 228 universities and performed \textsterling 12,267 above the national average, indicating competitive positioning despite modest overall amounts.
+In the North East region, Durham ranked third in regeneration income, following Sunderland (\textsterling 33,972) and Teesside (\textsterling 23,224), but ahead of Newcastle (\textsterling 11,970) and Northumbria (\textsterling 3,828). On the national scale, Durham placed 52nd out of 228 universities and performed \textsterling 2,407 above the national average, indicating competitive positioning despite modest overall amounts.
 
 Figures~\ref{fig:regeneration-programme}, \ref{fig:regeneration-time-trend}, and \ref{fig:regeneration-ne-comparison} provide detailed visualizations of Durham's regeneration programme distribution, temporal trends, and regional positioning. The regeneration and development activities, though smaller in scale compared to other income streams, perform above the national average and maintain a competitive position in the region. The diverse funding sources indicate successful engagement with various regeneration initiatives.
 
@@ -476,9 +476,9 @@ The regeneration analysis demonstrates Durham's effective engagement with variou
 
 \subsubsection{Overall Performance}
 
-With a total income of \textsterling 1,212,570 from all categories, Durham ranked third overall in the North East, behind Newcastle University (\textsterling 4,246,775) and Teesside University (\textsterling 2,431,149). It outperformed Northumbria (\textsterling 965,963) and Sunderland (\textsterling 242,566), reaffirming its position as a top-tier institution in the region.
+With a total income of \textsterling 656,869 from all categories, Durham ranked second overall in the North East, behind Newcastle University (\textsterling 1,868,311). It outperformed Teesside (\textsterling 277,932), Northumbria (\textsterling 271,526), and Sunderland (\textsterling 72,033), reaffirming its position as a top-tier institution in the region.
 
-The breakdown of income shows that research remains Durham's largest revenue source at 52.8\% (\textsterling 639,706), followed by business services (34.5\% or \textsterling 418,390), CPD and continuing education (9.5\% or \textsterling 114,904), and regeneration and development (3.2\% or \textsterling 39,570). This indicates a diverse yet research-focused funding profile.
+The breakdown of income shows that business services remains Durham's largest revenue source at 63.7\% (\textsterling 418,390), followed by research (33.0\% or \textsterling 216,850), regeneration and development (2.0\% or \textsterling 13,272), and CPD and continuing education (1.3\% or \textsterling 8,357). This indicates a diverse yet business-focused funding profile.
 
 Figure~\ref{fig:overall-performance} provides a comprehensive overview of Durham's total income composition and regional ranking. Durham University's income profile reflects a well-diversified portfolio with research income as the primary driver. The strong performance in research and business services, combined with above-average regeneration activities, positions the university competitively in the North East region. However, the relatively lower performance in CPD activities suggests an area for potential improvement and strategic focus.
 
@@ -572,9 +572,9 @@ The license analysis reveals Durham's extensive portfolio but highlights opportu
 
 \subsubsection{IP Income}
 
-Durham generated a total of \textsterling 18,340 in IP-related income, with \textsterling 517 from non-software licenses, \textsterling 49 from software licenses, and \textsterling 160 from other IP sources. These figures reflect minimal financial return from the university's IP assets.
+Durham generated a total of \textsterling 6,687 in IP-related income, with \textsterling 517 from non-software licenses, \textsterling 49 from software licenses, and \textsterling 160 from other IP sources. These figures reflect minimal financial return from the university's IP assets.
 
-Income by client type showed that SMEs contributed \pounds 458, followed by other commercial businesses (\pounds 163) and non-commercial organizations (\textsterling 105), indicating generally low monetization across all sectors. In the North East, Durham ranked second in IP income, behind Newcastle University (\textsterling 151,785), and held the 35th position nationally out of 228 universities.
+Income by client type showed that SMEs contributed \pounds 458, followed by other commercial businesses (\pounds 163) and non-commercial organizations (\textsterling 105), indicating generally low monetization across all sectors. In the North East, Durham ranked second in IP income, behind Newcastle University (\textsterling 36,868), and held the 34th position nationally out of 228 universities.
 
 
 
@@ -601,8 +601,8 @@ Durham's IP income performance is well below the national average, underscoring 
 & Other (non-SME) commercial & 0 & 0.0\% \\
 \cline{2-4}
 & SMEs & 160 & 0.9\% \\
-\hline \multicolumn{2}{|l|}{\textbf{Total IP Income}} & \textbf{18,340} & \textbf{100.0\%} \\
-\hline \multicolumn{2}{|l|}{\textbf{National Performance}} & \textbf{Rank: 35/228} & \textbf{National Average: \textsterling 33,172} \\
+\hline \multicolumn{2}{|l|}{\textbf{Total IP Income}} & \textbf{6,687} & \textbf{100.0\%} \\
+\hline \multicolumn{2}{|l|}{\textbf{National Performance}} & \textbf{Rank: 34/228} & \textbf{National Average: \textsterling 10,803} \\
 \hline
 \end{tabular}
 }
@@ -855,10 +855,10 @@ Across all three domains, Newcastle University leads in performance efficiency, 
 \resizebox{0.9\textwidth}{!}{%
 \begin{tabular}{|l|l|l|l|}
 \hline \textbf{University} & \textbf{Research Efficiency (\textsterling/staff day)} & \textbf{Business Efficiency (\textsterling/staff day)} & \textbf{IP Efficiency (\textsterling/staff day)} \\
-\hline Newcastle University & \textsterling 348.48 & \textsterling 64.44 & \textsterling 2.90 \\
-\hline Teesside University & \textsterling 122.29 & \textsterling 43.84 & \textsterling 0.01 \\
-\hline University of Northumbria at Newcastle & \textsterling 111.63 & \textsterling 13.78 & \textsterling 0.11 \\
-\hline University of Durham & \textsterling 57.58 & \textsterling 27.73 & \textsterling 0.05 \\
+\hline Newcastle University & \textsterling 117.35 & \textsterling 64.44 & \textsterling 3.02 \\
+\hline Teesside University & \textsterling 46.53 & \textsterling 43.84 & \textsterling 0.01 \\
+\hline University of Northumbria at Newcastle & \textsterling 39.21 & \textsterling 13.78 & \textsterling 0.11 \\
+\hline University of Durham & \textsterling 19.76 & \textsterling 27.73 & \textsterling 0.44 \\
 \hline The University of Sunderland & \textsterling 2.46 & \textsterling 4.82 & \textsterling 0.02 \\
 \hline
 \end{tabular}
@@ -869,11 +869,11 @@ Across all three domains, Newcastle University leads in performance efficiency, 
 \subsubsection{Efficiency Analysis by Domain}
 
 \begin{itemize}
-    \item \textbf{Research Efficiency:} Newcastle University far outperforms all others with \textsterling 348.5 per staff day. Teesside (\textsterling 122.3) and Northumbria (\textsterling 111.6) follow, while Durham ranks fourth at \textsterling 57.6. Sunderland lags significantly at \textsterling 2.5 per staff day, suggesting low conversion of staff input into research income.
+    \item \textbf{Research Efficiency:} Newcastle University far outperforms all others with \textsterling 117.4 per staff day. Teesside (\textsterling 46.5) and Northumbria (\textsterling 39.2) follow, while Durham ranks fourth at \textsterling 19.8. Sunderland lags significantly at \textsterling 2.5 per staff day, suggesting low conversion of staff input into research income.
     
     \item \textbf{Business Services Efficiency:} Newcastle again leads at \textsterling 64.4, followed by Teesside (\textsterling 43.8). Durham generates \textsterling 27.7 per staff day in this domain, indicating moderate engagement. Sunderland's figure of \textsterling 4.8 underscores minimal business service impact.
     
-    \item \textbf{IP Efficiency:} All universities show low performance here. Newcastle is the only institution exceeding \textsterling 2.0 (\textsterling 2.9 per staff day), while the rest remain below \textsterling 0.12. This suggests that despite patent filings or licenses, direct financial returns from IP remain limited regionally.
+    \item \textbf{IP Efficiency:} All universities show low performance here. Newcastle is the only institution exceeding \textsterling 2.0 (\textsterling 3.0 per staff day), while Durham shows \textsterling 0.44 per staff day and the rest remain below \textsterling 0.12. This suggests that despite patent filings or licenses, direct financial returns from IP remain limited regionally.
 \end{itemize}
 
 
@@ -965,13 +965,13 @@ Two primary methods are used in this analysis:
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Research:} Newcastle University exhibits the highest stability ($\mathrm{CV}=0.101$), significantly outperforming all peers. Teesside shows the highest volatility ($\mathrm{CV}=0.861$), indicating irregular research income patterns.
+    \item \textbf{Research:} Newcastle University exhibits the highest stability ($\mathrm{CV}=0.125$), significantly outperforming all peers. Teesside shows the highest volatility ($\mathrm{CV}=0.937$), indicating irregular research income patterns.
     
     \item \textbf{Business Services:} Again, Newcastle leads with $\mathrm{CV}=0.085$, while Northumbria ranks lowest with $\mathrm{CV}=0.461$. Durham shows moderate instability ($\mathrm{CV}=0.380$).
     
-    \item \textbf{CPD:} Teesside ranks best ($\mathrm{CV}=0.207$), followed by Sunderland and Newcastle. Durham again sits at mid-range, while Northumbria displays the highest variation ($\mathrm{CV}=0.587$).
+    \item \textbf{CPD:} Northumbria ranks best ($\mathrm{CV}=0.114$), followed by Teesside and Sunderland. Durham shows moderate variation ($\mathrm{CV}=0.340$), while Newcastle displays higher variation ($\mathrm{CV}=0.290$).
     
-    \item \textbf{IP:} All universities show high volatility in IP income. Northumbria ($\mathrm{CV}=0.531$) and Durham (0.676) are relatively more stable than Teesside (2.843) and Newcastle (2.178), reflecting erratic licensing revenue patterns.
+    \item \textbf{IP:} All universities show high volatility in IP income. Northumbria ($\mathrm{CV}=0.531$) and Sunderland ($\mathrm{CV}=1.870$) are relatively more stable than Durham ($\mathrm{CV}=2.408$), Newcastle ($\mathrm{CV}=2.150$), and Teesside ($\mathrm{CV}=2.843$), reflecting erratic licensing revenue patterns.
 \end{itemize}
 
 \subsubsection{National Volatility Rankings}
@@ -999,7 +999,7 @@ The following summary presents trend statistics across academic years, including
     
     \item \textbf{CPD Trends:} Teesside and Northumbria show strong long-term upward trends. Durham's CPD income trend is slightly negative despite modest average annual growth, suggesting inconsistent returns. Detailed analysis uncovers the root cause of Durham's CPD underperformance: despite delivering 98,190 learner days (ranking 4th regionally), the revenue generation efficiency is extremely low at \textsterling 0.085 per learner day, compared to Teesside's \textsterling 0.211 efficiency. This inefficiency stems from (1) the high proportion of free or subsidized courses (83.1\% of total value), (2) the focus on non-commercial organizations (52.8\% of courses) which typically pay lower rates, and (3) the lack of premium CPD offerings that could command higher fees. The analysis suggests that Durham could significantly improve CPD profitability by developing specialized, high-value professional development programs while maintaining its commitment to public engagement.
     
-    \item \textbf{IP Trends:} All institutions display extreme volatility and irregular growth. Year-on-year changes often exceed ±100\%, with frequent income collapses (e.g., 100\% decrease). Trend analysis is inconclusive for most due to unstable series. In-depth examination reveals that Durham's IP volatility ($\mathrm{CV}=0.676$) is fundamentally different from other institutions: while Newcastle's high volatility ($\mathrm{CV}=2.178$) stems from large, irregular licensing deals, Durham's volatility reflects a systematic commercialization challenge. Specifically, (1) only 1.7\% of licenses generate income (30 out of 1,719 total licenses), indicating a fundamental disconnect between IP creation and commercialization success, (2) the average income per license (\textsterling 10.66) is significantly below the national average (\textsterling 19.30), suggesting undervaluation of IP assets, and (3) the concentration in non-software licenses (85.8\% of portfolio) in a market increasingly favoring software and digital IP. This analysis indicates that Durham's IP strategy requires fundamental restructuring, focusing on commercialization pipeline development rather than portfolio expansion.
+    \item \textbf{IP Trends:} All institutions display extreme volatility and irregular growth. Year-on-year changes often exceed ±100\%, with frequent income collapses (e.g., 100\% decrease). Trend analysis is inconclusive for most due to unstable series. In-depth examination reveals that Durham's IP volatility ($\mathrm{CV}=2.408$) is fundamentally different from other institutions: while Newcastle's high volatility ($\mathrm{CV}=2.150$) stems from large, irregular licensing deals, Durham's volatility reflects a systematic commercialization challenge. Specifically, (1) only 1.7\% of licenses generate income (30 out of 1,719 total licenses), indicating a fundamental disconnect between IP creation and commercialization success, (2) the average income per license (\textsterling 10.66) is significantly below the national average (\textsterling 19.30), suggesting undervaluation of IP assets, and (3) the concentration in non-software licenses (85.8\% of portfolio) in a market increasingly favoring software and digital IP. This analysis indicates that Durham's IP strategy requires fundamental restructuring, focusing on commercialization pipeline development rather than portfolio expansion.
 \end{itemize}
 
 The trend analysis reinforces volatility findings. CPD appears to offer the most stable and predictable income opportunities, while IP continues to pose the greatest financial uncertainty. This comprehensive volatility analysis reveals a critical insight: Durham's financial resilience is not uniformly distributed across income streams, but rather follows a distinct pattern where stability correlates with institutional control over pricing and client relationships. Research income, while volatile, benefits from government funding stability; CPD offers predictable returns but suffers from pricing inefficiency; business services show moderate volatility due to external dependency; and IP income exhibits extreme volatility due to commercialization pipeline failures. This pattern suggests that Durham's financial strategy should prioritize (1) developing premium CPD offerings to capture higher margins, (2) expanding SME partnerships to reduce business service volatility, and (3) restructuring IP commercialization processes to improve income predictability, rather than simply expanding existing activities.
@@ -1022,7 +1022,7 @@ Institutions with higher volatility often show greater income concentration, sug
 
 \subsubsection{Resilience and Risk Summary}
 
-Durham University demonstrates moderate financial stability across most domains. In research income, Durham shows a coefficient of variation (CV) of 0.309, indicating lower volatility compared to most regional peers but not matching Newcastle's exceptional consistency. Table~\ref{tab:research-volatility} summarizes CV values, along with the mean and standard deviation of research income across the five universities.
+Durham University demonstrates moderate financial stability across most domains. In research income, Durham shows a coefficient of variation (CV) of 0.324, indicating lower volatility compared to most regional peers but not matching Newcastle's exceptional consistency. Table~\ref{tab:research-volatility} summarizes CV values, along with the mean and standard deviation of research income across the five universities.
 \vspace{0.25cm}
 \begin{table}[h]
 \centering
@@ -1031,11 +1031,11 @@ Durham University demonstrates moderate financial stability across most domains.
 \resizebox{0.7\textwidth}{!}{%
 \begin{tabular}{|l|l|l|l|}
 \hline \textbf{University} & \textbf{Coefficient of Variation} & \textbf{Mean Income (\textsterling )} & \textbf{Std Dev (\textsterling )} \\
-\hline Newcastle University & 0.101 & \textsterling 363,762 & \textsterling 36,680 \\
-\hline University of Durham & 0.309 & \textsterling 71,078 & \textsterling 21,956 \\
-\hline University of Northumbria at Newcastle & 0.512 & \textsterling 42,754 & \textsterling 21,896 \\
-\hline The University of Sunderland & 0.620 & \textsterling 914 & \textsterling 566 \\
-\hline Teesside University & 0.861 & \textsterling 20,532 & \textsterling 17,681 \\
+\hline Newcastle University & 0.125 & \textsterling 122,812 & \textsterling 15,351 \\
+\hline University of Durham & 0.324 & \textsterling 24,094 & \textsterling 7,806 \\
+\hline University of Northumbria at Newcastle & 0.500 & \textsterling 14,941 & \textsterling 7,470 \\
+\hline The University of Sunderland & 0.761 & \textsterling 305 & \textsterling 232 \\
+\hline Teesside University & 0.937 & \textsterling 7,649 & \textsterling 7,170 \\
 \hline
 \end{tabular}
 }
@@ -1044,7 +1044,7 @@ Durham University demonstrates moderate financial stability across most domains.
 
 As seen in Table~\ref{tab:research-volatility} and Figure~\ref{fig:ne-volatility-comparison}, Newcastle enjoys both high income levels and low volatility, while Durham maintains stability despite its moderate income. Teesside and Sunderland show significant instability, suggesting higher exposure to financial risk.
 
-From a national perspective (Figure 42), Durham ranks within the top third of UK institutions for research resilience and performs moderately in business and CPD domains. However, its IP income remains highly volatile ($\mathrm{CV}=0.676$) and ranks outside the top 50, reflecting exposure to commercial licensing risk.
+From a national perspective (Figure 42), Durham ranks within the top third of UK institutions for research resilience and performs moderately in business and CPD domains. However, its IP income remains highly volatile ($\mathrm{CV}=2.408$) and ranks outside the top 50, reflecting exposure to commercial licensing risk.
 
 Durham's income diversification profile is relatively strong, with no single income stream accounting for more than 50\% and a Herfindahl-Hirschman Index (HHI) value under 0.35. This distribution mitigates systemic risk and reinforces the institution's medium resilience tier.
 
@@ -1132,7 +1132,7 @@ Durham University's trend analysis reveals strong growth potential in research i
 
 \subsection{Income Analysis Summary}
 
-The income analysis reveals Durham University's strong performance in research income, ranking 33rd nationally with a total of \textsterling 639,706. The university demonstrates a well-diversified income portfolio, with significant contributions from collaborative research and business services. While research income shows consistent growth, business services income has shown some volatility, and CPD income, despite high learner engagement (98,190 learner days), generates relatively low revenue (\textsterling 8,357). The university's total income of \textsterling 1,212,570 positions it third in the North East region, indicating a solid financial foundation but with room for improvement in commercial activities.
+The income analysis reveals Durham University's strong performance in business services income, ranking 31st nationally with a total of \textsterling 418,390. The university demonstrates a well-diversified income portfolio, with significant contributions from business services and collaborative research. While business services income shows consistent performance, research income has shown some volatility, and CPD income, despite high learner engagement (98,190 learner days), generates relatively low revenue (\textsterling 8,357). The university's total income of \textsterling 656,869 positions it second in the North East region, indicating a solid financial foundation but with room for improvement in commercial activities.
 
 \subsection{Intellectual Property Analysis Summary}
 
@@ -1148,7 +1148,7 @@ The regional and specialization analysis reveals Durham University's strong posi
 
 \subsection{Performance Efficiency Analysis Summary}
 
-The performance efficiency analysis, using output-to-input ratios across income streams, highlights notable differences among North East institutions. Durham University ranks first in efficiency within the region, particularly excelling in IP income and research income conversion. This suggests a strong internal capability to translate resources into measurable outcomes. Nationally, Durham also places within the top quartile, reinforcing its operational strength.
+The performance efficiency analysis, using output-to-input ratios across income streams, highlights notable differences among North East institutions. Durham University ranks fourth in research efficiency within the region, with moderate performance in business services and IP income conversion. This suggests room for improvement in translating resources into measurable outcomes. Nationally, Durham places in the mid-tier range, indicating potential for operational enhancement.
 
 However, the analysis also reveals underperformance in CPD and business income efficiency compared to national benchmarks. While the university performs well in securing research grants, its ability to monetize business services and lifelong learning lags behind leading institutions. These insights point to a need for rebalancing investment-to-return structures across income categories.
 
@@ -1176,7 +1176,7 @@ The comprehensive volatility analysis reveals distinct strategic priorities for 
 \subsection{Income Enhancement Strategies}
 
 \begin{itemize}
-    \item \textbf{Research Income Optimization:} Durham University currently ranks 33rd nationally for research income, with \textsterling 639,706, placing it in the top 15\% of institutions. This income level surpasses the 75th percentile (\textsterling 222,681), indicating strong baseline performance. Forecasting models project further growth potential: linear regression predicts a +25.70\% increase, while exponential smoothing forecasts +27.04\%. However, a random forest model suggests a possible -5.63\% decline, highlighting the need for risk mitigation. Deep analysis reveals that Durham's research income volatility ($\mathrm{CV}=0.309$) is primarily driven by BEIS Research Councils funding concentration (60.7\% of total), creating dependency on government policy cycles, and irregular timing of large collaborative projects leading to year-on-year fluctuations of up to 986.6\% growth in peak years. Recommendations include building on current momentum through targeted growth plans, implementing early-warning systems for revenue volatility, and strengthening the management of research grant applications to secure sustainable long-term growth. To address the structural volatility drivers, Durham should prioritize funding source diversification beyond BEIS Research Councils, develop multi-year grant planning to smooth project timing, and establish policy risk monitoring systems to anticipate government funding cycle changes.
+    \item \textbf{Research Income Optimization:} Durham University currently ranks 33rd nationally for research income, with \textsterling 216,850, placing it in the top 15\% of institutions. This income level surpasses the 75th percentile (\textsterling 222,681), indicating strong baseline performance. Forecasting models project further growth potential: linear regression predicts a +25.70\% increase, while exponential smoothing forecasts +27.04\%. However, a random forest model suggests a possible -5.63\% decline, highlighting the need for risk mitigation. Deep analysis reveals that Durham's research income volatility ($\mathrm{CV}=0.324$) is primarily driven by BEIS Research Councils funding concentration (60.7\% of total), creating dependency on government policy cycles, and irregular timing of large collaborative projects leading to year-on-year fluctuations of up to 986.6\% growth in peak years. Recommendations include building on current momentum through targeted growth plans, implementing early-warning systems for revenue volatility, and strengthening the management of research grant applications to secure sustainable long-term growth. To address the structural volatility drivers, Durham should prioritize funding source diversification beyond BEIS Research Councils, develop multi-year grant planning to smooth project timing, and establish policy risk monitoring systems to anticipate government funding cycle changes.
       
     \item \textbf{Business Services Development:} Ranked 31st nationally, Durham's business services income shows considerable volatility, with predictions ranging from -54.84\% to +6.77\%. The HHI index (0.47-0.69) reflects high specialization, posing potential concentration risk. Further investigation reveals that Durham's business services volatility ($\mathrm{CV}=0.380$) stems from three key structural factors: (1) the dominance of contract research (49.7\% of business income) which is highly sensitive to external funding cycles, (2) the concentration of clients in non-commercial organizations (66.8\% of contracts), making the institution vulnerable to public sector budget cuts, and (3) the limited engagement with SMEs (6.0\% of contracts), missing opportunities for more stable, diversified income streams. To address this, the university should implement income stabilization mechanisms, diversify its service offerings to broaden its client base, and explore innovative business models inspired by Northumbria's projected +61.92\% growth. Based on the strongest concentration-volatility relationship (r=0.67) among all income types, business service diversification should be Durham's highest priority, with expected volatility reduction of 40-60\%. Specific actions include expanding SME partnerships beyond the current 6.0\% level, developing non-contract research services, and reducing non-commercial client dependency from 66.8\% to below 50\%.
     
@@ -1249,7 +1249,7 @@ Detailed Implementation Timeline:
 
 \section{Conclusion}
 
-This comprehensive analysis of Durham University's HE-BCI performance reveals a complex institutional profile characterized by both significant strengths and strategic challenges within the UK higher education landscape. The study demonstrates that Durham maintains a strong regional position as the second-highest performing institution in the North East, consistently ranking among the top 15\% nationally across multiple performance indicators. The university's research income performance is particularly noteworthy, with \textsterling 639,706 placing it 33rd nationally and significantly outperforming the national average by \textsterling 255,512.
+This comprehensive analysis of Durham University's HE-BCI performance reveals a complex institutional profile characterized by both significant strengths and strategic challenges within the UK higher education landscape. The study demonstrates that Durham maintains a strong regional position as the second-highest performing institution in the North East, consistently ranking among the top 15\% nationally across multiple performance indicators. The university's business services income performance is particularly noteworthy, with \textsterling 418,390 placing it 31st nationally and significantly outperforming the national average by \textsterling 212,717.
 
 The analysis identifies several key strengths that position Durham for continued success. The university demonstrates robust IP generation capabilities, ranking 31st nationally in disclosures with a substantial patent portfolio of 2,019 patents and supporting 642 active spin-off companies that employ 5,455 FTE staff and generate \textsterling 542.35 million in turnover. Public engagement activities show significant community impact, with 6,024,744 participants across diverse programming, though 72.1\% of events are free, limiting revenue generation. Regional positioning analysis reveals balanced specialization with HHI values of 0.28-0.31 in research, indicating healthy diversification without overconcentration.
 
@@ -1262,6 +1262,114 @@ To address these challenges and capitalize on opportunities, Durham should prior
 The analysis demonstrates that Durham University possesses the foundational strengths necessary for continued regional leadership and national prominence. By implementing the identified strategic priorities, particularly in business diversification, IP commercialization, and efficiency optimization, Durham can enhance its resilience, improve income stability, and strengthen its position as a key driver of innovation and economic development in the North East region.
 
 \appendix
+
+\section{Data Sources and Script References}
+
+This appendix provides a comprehensive reference table listing all key data points, metrics, and statistics used throughout the report, along with their corresponding analysis scripts and source CSV files. This table serves as a complete data provenance record for transparency and reproducibility.
+
+\vspace{0.3cm}
+\begin{table}[h]
+\centering
+\caption{Complete Data Sources and Script References}
+\vspace{0.1cm}
+\resizebox{0.99\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|}
+\hline \textbf{Data Point/Metric} & \textbf{Value} & \textbf{National Rank} & \textbf{Analysis Script} & \textbf{Source CSV} \\
+\hline \multicolumn{5}{|l|}{\textbf{Income Analysis (Section 5.2)}} \\
+\hline Durham Research Income & £216,850 & 33/228 & 2.income\_analysis.py & table-1.csv \\
+\hline National Average Research Income & £129,523 & - & 2.income\_analysis.py & table-1.csv \\
+\hline Durham Business Services Income & £418,390 & 31/228 & 2.income\_analysis.py & table-2a.csv \\
+\hline National Average Business Services & £205,673 & - & 2.income\_analysis.py & table-2a.csv \\
+\hline Durham CPD Income & £8,357 & 123/228 & 2.income\_analysis.py & table-2b.csv \\
+\hline National Average CPD Income & £30,026 & - & 2.income\_analysis.py & table-2b.csv \\
+\hline Durham Regeneration Income & £13,272 & 52/228 & 2.income\_analysis.py & table-3.csv \\
+\hline National Average Regeneration & £10,865 & - & 2.income\_analysis.py & table-3.csv \\
+\hline Durham Total Income & £656,869 & 2/5 (Regional) & 2.income\_analysis.py & Multiple tables \\
+\hline \multicolumn{5}{|l|}{\textbf{Intellectual Property Analysis (Section 5.3)}} \\
+\hline Durham IP Disclosures & 3,458 & 28/228 & 3.ip\_analysis.py & table-4a.csv \\
+\hline National Average IP Disclosures & 2,076 & - & 3.ip\_analysis.py & table-4a.csv \\
+\hline Durham Patent Portfolio & 2,019 & - & 3.ip\_analysis.py & table-4a.csv \\
+\hline Durham New Patent Applications & 124 & - & 3.ip\_analysis.py & table-4a.csv \\
+\hline Durham Patents Granted & 80 & - & 3.ip\_analysis.py & table-4a.csv \\
+\hline Durham Total Licenses & 1,719 & 37/228 & 3.ip\_analysis.py & table-4b.csv \\
+\hline National Average Licenses & 5,576 & - & 3.ip\_analysis.py & table-4b.csv \\
+\hline Durham Income-Generating Licenses & 30 & - & 3.ip\_analysis.py & table-4b.csv \\
+\hline Durham IP Income & £6,687 & 34/228 & 3.ip\_analysis.py & table-4d.csv \\
+\hline National Average IP Income & £10,803 & - & 3.ip\_analysis.py & table-4d.csv \\
+\hline Durham Active Spin-off Companies & 642 & 25/228 & 3.ip\_analysis.py & table-4e.csv \\
+\hline Durham Spin-off Employment (FTE) & 5,455 & - & 3.ip\_analysis.py & table-4e.csv \\
+\hline Durham Spin-off Turnover & £542.35M & - & 3.ip\_analysis.py & table-4e.csv \\
+\hline Durham Spin-off External Investment & £117.66M & - & 3.ip\_analysis.py & table-4e.csv \\
+\hline \multicolumn{5}{|l|}{\textbf{Public Engagement Analysis (Section 5.4)}} \\
+\hline Durham Total Engagement Events & 6,043,792 & 31/228 & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline National Average Engagement Events & 29,012,765 & - & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline Durham Total Participants & 6,024,744 & - & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline Durham Academic Staff Time (Days) & 19,048 & - & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline Durham Free Events Percentage & 72.1\% & - & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline Durham Chargeable Events & 1,687,130 & - & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline Durham Free Events & 4,356,662 & - & 4.public\_engagement\_analysis.py & table-5.csv \\
+\hline \multicolumn{5}{|l|}{\textbf{Performance Efficiency Analysis (Section 5.6)}} \\
+\hline Durham Research Efficiency & £19.76/staff day & 78/228 & 6.performance\_efficiency\_analysis.py & table-1.csv + staff data \\
+\hline Durham Business Efficiency & £27.73/staff day & 95/228 & 6.performance\_efficiency\_analysis.py & table-2a.csv + staff data \\
+\hline Durham IP Efficiency & £0.44/staff day & 99/228 & 6.performance\_efficiency\_analysis.py & table-4d.csv + staff data \\
+\hline Newcastle Research Efficiency & £117.35/staff day & 30/228 & 6.performance\_efficiency\_analysis.py & table-1.csv + staff data \\
+\hline Newcastle Business Efficiency & £64.44/staff day & 60/228 & 6.performance\_efficiency\_analysis.py & table-2a.csv + staff data \\
+\hline Newcastle IP Efficiency & £3.02/staff day & 31/228 & 6.performance\_efficiency\_analysis.py & table-4d.csv + staff data \\
+\hline \multicolumn{5}{|l|}{\textbf{Resilience and Risk Analysis (Section 5.7)}} \\
+\hline Durham Research Income CV & 0.324 & 60/228 & 7.resilience\_risk\_analysis.py & table-1.csv \\
+\hline Durham Business Services CV & 0.380 & 108/228 & 7.resilience\_risk\_analysis.py & table-2a.csv \\
+\hline Durham CPD Income CV & 0.340 & 84/228 & 7.resilience\_risk\_analysis.py & table-2b.csv \\
+\hline Durham IP Income CV & 2.408 & 56/228 & 7.resilience\_risk\_analysis.py & table-4d.csv \\
+\hline Newcastle Research Income CV & 0.125 & 7/228 & 7.resilience\_risk\_analysis.py & table-1.csv \\
+\hline Newcastle Business Services CV & 0.085 & 9/228 & 7.resilience\_risk\_analysis.py & table-2a.csv \\
+\hline Newcastle CPD Income CV & 0.290 & - & 7.resilience\_risk\_analysis.py & table-2b.csv \\
+\hline Newcastle IP Income CV & 2.150 & 119/228 & 7.resilience\_risk\_analysis.py & table-4d.csv \\
+\hline Durham Research HHI & 0.28-0.31 & - & 7.resilience\_risk\_analysis.py & table-1.csv \\
+\hline Durham Business Services HHI & 0.47-0.69 & - & 7.resilience\_risk\_analysis.py & table-2a.csv \\
+\hline Durham IP HHI & 0.27-0.62 & - & 7.resilience\_risk\_analysis.py & table-4d.csv \\
+\hline \multicolumn{5}{|l|}{\textbf{Trend Prediction Analysis (Section 5.8)}} \\
+\hline Durham Research Income Growth (Linear) & +25.70\% & - & 8.trend\_prediction.py & table-1.csv \\
+\hline Durham Research Income Growth (Exp Smooth) & +27.04\% & - & 8.trend\_prediction.py & table-1.csv \\
+\hline Durham Research Income Growth (Random Forest) & -5.63\% & - & 8.trend\_prediction.py & table-1.csv \\
+\hline Durham Business Income Growth (Linear) & -54.84\% & - & 8.trend\_prediction.py & table-2a.csv \\
+\hline Durham Business Income Growth (Exp Smooth) & -31.56\% & - & 8.trend\_prediction.py & table-2a.csv \\
+\hline Durham Business Income Growth (Random Forest) & +6.77\% & - & 8.trend\_prediction.py & table-2a.csv \\
+\hline Durham CPD Income Growth (All Models) & +39.28\% & - & 8.trend\_prediction.py & table-2b.csv \\
+\hline Durham IP Disclosures Growth & +50.49\% & - & 8.trend\_prediction.py & table-4a.csv \\
+\hline Durham IP Income Growth (Linear) & -47.71\% & - & 8.trend\_prediction.py & table-4d.csv \\
+\hline Durham IP Income Growth (Random Forest) & +15.39\% & - & 8.trend\_prediction.py & table-4d.csv \\
+\hline Durham Public Engagement Growth & -20.49\% & - & 8.trend\_prediction.py & table-5.csv \\
+\hline National Average Public Engagement Growth & -30.30\% & - & 8.trend\_prediction.py & table-5.csv \\
+\hline \multicolumn{5}{|l|}{\textbf{Dataset Overview (Section 4)}} \\
+\hline Total Institutions in Dataset & 228 & - & 1.data\_exploratory\_analysis.py & All tables \\
+\hline Time Period Covered & 2014/15-2023/24 & - & 1.data\_exploratory\_analysis.py & All tables \\
+\hline North East Institutions & 5 & - & 1.data\_exploratory\_analysis.py & All tables \\
+\hline Missing Values Table 1 & 25 & - & 1.data\_exploratory\_analysis.py & table-1.csv \\
+\hline Missing Values Table 2a & 22,500 & - & 1.data\_exploratory\_analysis.py & table-2a.csv \\
+\hline Missing Values Table 2b & 5 & - & 1.data\_exploratory\_analysis.py & table-2b.csv \\
+\hline Missing Values Table 3 & 1,452 & - & 1.data\_exploratory\_analysis.py & table-3.csv \\
+\hline Missing Values Table 4c & 9 & - & 1.data\_exploratory\_analysis.py & table-4c.csv \\
+\hline Missing Values Table 4d & 5 & - & 1.data\_exploratory\_analysis.py & table-4d.csv \\
+\hline Missing Values Table 4e & 10 & - & 1.data\_exploratory\_analysis.py & table-4e.csv \\
+\hline Missing Values Table 5 & 0 & - & 1.data\_exploratory\_analysis.py & table-5.csv \\
+\hline
+\end{tabular}
+}
+\label{tab:data-sources-complete}
+\end{table}
+
+\vspace{0.3cm}
+\textbf{Notes:}
+\begin{itemize}
+    \item \textbf{CV:} Coefficient of Variation, measuring income volatility
+    \item \textbf{HHI:} Herfindahl-Hirschman Index, measuring income concentration/diversification
+    \item \textbf{FTE:} Full-Time Equivalent employment
+    \item \textbf{Regional Rank:} Position among the 5 North East institutions
+    \item \textbf{National Rank:} Position among all 228 UK higher education institutions
+    \item \textbf{Staff Data:} Academic staff time data used for efficiency calculations derived from HE-BCI survey metadata
+    \item \textbf{Multiple Tables:} Some metrics require data from multiple CSV files for comprehensive analysis
+\end{itemize}
+
 % \section{Forecasted Trends and Additional Results}
 
 % This appendix contains additional forecasting results and trend analysis data that support the main findings presented in the report. The script overview as follows,
@@ -1372,6 +1480,129 @@ The analysis demonstrates that Durham University possesses the foundational stre
 \caption{Trend predictions XGBoost}
 \label{fig:trend-predictions-xgboost}
 \end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure7.services_type.png}
+        \caption{Services Type}
+        \label{fig:services-type}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure8.services_org_type.png}
+        \caption{Services Organization Type}
+        \label{fig:services-org-type}
+    \end{subfigure}
+    \vspace{0.6cm}
+    \caption{Business Services Analysis}
+    \label{fig:business-services-analysis}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure9.services_metric_type.png}
+        \caption{Services Metric Type}
+        \label{fig:services-metric-type}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure11.cpd_category.png}
+        \caption{CPD Category}
+        \label{fig:cpd-category}
+    \end{subfigure}
+    \vspace{0.6cm}
+    \caption{Additional Services and CPD Analysis}
+    \label{fig:additional-services-cpd}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure12.cpd_unit_type.png}
+        \caption{CPD Unit Type}
+        \label{fig:cpd-unit-type}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure19.ip_disclosure_trend.png}
+        \caption{IP Disclosure Trend}
+        \label{fig:ip-disclosure-trend}
+    \end{subfigure}
+    \vspace{0.6cm}
+    \caption{CPD and IP Trend Analysis}
+    \label{fig:cpd-ip-trend}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure21.license_type.png}
+        \caption{License Type}
+        \label{fig:license-type}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure22.license_org_type.png}
+        \caption{License Organization Type}
+        \label{fig:license-org-type}
+    \end{subfigure}
+    \vspace{0.6cm}
+    \caption{License Analysis}
+    \label{fig:license-analysis}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure24.ip_income_source.png}
+        \caption{IP Income Source}
+        \label{fig:ip-income-source}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure25.ip_income_org_type.png}
+        \caption{IP Income Organization Type}
+        \label{fig:ip-income-org-type}
+    \end{subfigure}
+    \vspace{0.6cm}
+    \caption{IP Income Analysis}
+    \label{fig:ip-income-analysis}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure45.regional_distribution_pie.png}
+        \caption{Regional Distribution}
+        \label{fig:regional-distribution}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Fig/figure46.dataset_overview.png}
+        \caption{Dataset Overview}
+        \label{fig:dataset-overview}
+    \end{subfigure}
+    \vspace{0.6cm}
+    \caption{Regional and Dataset Analysis}
+    \label{fig:regional-dataset}
+\end{figure}
+
+
+
 
 \clearpage
 \bibliographystyle{IEEEtran}
