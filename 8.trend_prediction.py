@@ -646,10 +646,15 @@ def predict_trends(data, ne_universities):
         for metric in all_methods_summary[method_name]:
             print(f"{metric}:")
             md_lines.append(f"### {metric}\n")
+            
+            # Create table format
+            md_lines.append("| University | Trend Prediction |")
+            md_lines.append("|------------|------------------|")
+            
             for school in all_methods_summary[method_name][metric]:
                 line = f"  {school}: {all_methods_summary[method_name][metric][school]}"
                 print(line)
-                md_lines.append(f"- {school}: {all_methods_summary[method_name][metric][school]}")
+                md_lines.append(f"| {school} | {all_methods_summary[method_name][metric][school]} |")
             md_lines.append("")
     with open("8.trend_prediction.md", "w", encoding='utf-8') as f:
         f.write("\n".join(md_lines))

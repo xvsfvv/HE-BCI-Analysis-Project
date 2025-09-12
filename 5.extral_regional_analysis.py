@@ -288,13 +288,15 @@ def main():
     md_content += "## Ranking Analysis\n\n"
     for metric, df in rankings.items():
         md_content += f"### {metric}\n\n"
-        md_content += df.to_string() + "\n\n"
+        # Convert DataFrame to proper markdown table format
+        md_content += df.to_markdown() + "\n\n"
 
     # Specialization Analysis
     md_content += "## Specialization Analysis\n\n"
     for area, df in specialization.items():
         md_content += f"### {area}\n\n"
-        md_content += df.to_string() + "\n\n"
+        # Convert DataFrame to proper markdown table format
+        md_content += df.to_markdown() + "\n\n"
 
     with open('5.extral_regional_analysis.md', 'w', encoding='utf-8') as f:
         f.write(md_content)
@@ -305,13 +307,13 @@ def main():
     print("## Ranking Analysis\n")
     for metric, df in rankings.items():
         print(f"### {metric}\n")
-        print(df)
+        print(df.to_markdown())
         print("")
     # Specialization Analysis
     print("## Specialization Analysis\n")
     for area, df in specialization.items():
         print(f"### {area}\n")
-        print(df)
+        print(df.to_markdown())
         print("")
     print("\nRegional Analysis completed!")
     print("Results have been saved to '5.extral_regional_analysis.md'")

@@ -326,12 +326,12 @@ def analyze_volatility_trends(data, ne_universities):
         summary_data = []
         
         for univ in ne_universities:
-            # For CPD data, we need to aggregate by year like in calculate_income_volatility
-            if metric_name == 'CPD':
+            # For CPD, Research, Business, and IP data, we need to aggregate by year like in calculate_income_volatility
+            if metric_name in ['CPD', 'Research', 'Business', 'IP']:
                 univ_data = metric_data[metric_data['HE Provider'] == univ]
                 if len(univ_data) > 0:
                     # Group by year and sum values
-                    univ_data = univ_data.groupby('Academic Year')['Value'].sum().reset_index()
+                    univ_data = univ_data.groupby('Academic Year')[value_col].sum().reset_index()
                     univ_data = univ_data.sort_values('Academic Year')
             else:
                 univ_data = metric_data[metric_data['HE Provider'] == univ]
@@ -453,23 +453,42 @@ def main():
     
     # NE Volatility Summary
     md_content += "## North East Universities Volatility Summary\n\n"
+    print("\n=== North East Universities Volatility Summary ===")
     for metric_name, ne_data in ne_volatility_summary.items():
         md_content += f"### {metric_name} Volatility\n\n"
         md_content += "| University | Coefficient of Variation | Mean Income | Std Dev |\n"
         md_content += "|------------|---------------------------|-------------|---------|\n"
+        
+        print(f"\n{metric_name} Volatility:")
+        print("| University | Coefficient of Variation | Mean Income | Std Dev |")
+        print("|------------|---------------------------|-------------|---------|")
+        
         for _, row in ne_data.iterrows():
-            md_content += f"| {row['HE Provider']} | {row['cv']:.3f} | £{row['mean']:,.0f} | £{row['std']:,.0f} |\n"
+            # Format numbers properly for GitHub markdown
+            mean_str = f"£{row['mean']:,.0f}" if row['mean'] >= 1000 else f"£{row['mean']:,.0f}"
+            std_str = f"£{row['std']:,.0f}" if row['std'] >= 1000 else f"£{row['std']:,.0f}"
+            md_content += f"| {row['HE Provider']} | {row['cv']:.3f} | {mean_str} | {std_str} |\n"
+            print(f"| {row['HE Provider']} | {row['cv']:.3f} | {mean_str} | {std_str} |")
         md_content += "\n"
+        print()
     
     # National Rankings
     md_content += "## National Volatility Rankings\n\n"
+    print("\n=== National Volatility Rankings ===")
     for metric_name, rankings in national_rankings.items():
         md_content += f"### {metric_name} Volatility Rankings\n\n"
         md_content += "| University | National Rank | Coefficient of Variation |\n"
         md_content += "|------------|---------------|---------------------------|\n"
+        
+        print(f"\n{metric_name} Volatility Rankings:")
+        print("| University | National Rank | Coefficient of Variation |")
+        print("|------------|---------------|---------------------------|")
+        
         for univ, info in rankings.items():
             md_content += f"| {univ} | {info['rank']} | {info['cv']:.3f} |\n"
+            print(f"| {univ} | {info['rank']} | {info['cv']:.3f} |")
         md_content += "\n"
+        print()
     
     # Add trend analysis tables to markdown
     md_content += "## Income Trends Analysis\n\n"
@@ -499,12 +518,12 @@ def main():
         summary_data = []
         
         for univ in ne_universities:
-            # For CPD data, we need to aggregate by year like in calculate_income_volatility
-            if metric_name == 'CPD':
+            # For CPD, Research, Business, and IP data, we need to aggregate by year like in calculate_income_volatility
+            if metric_name in ['CPD', 'Research', 'Business', 'IP']:
                 univ_data = metric_data[metric_data['HE Provider'] == univ]
                 if len(univ_data) > 0:
                     # Group by year and sum values
-                    univ_data = univ_data.groupby('Academic Year')['Value'].sum().reset_index()
+                    univ_data = univ_data.groupby('Academic Year')[value_col].sum().reset_index()
                     univ_data = univ_data.sort_values('Academic Year')
             else:
                 univ_data = metric_data[metric_data['HE Provider'] == univ]
@@ -570,7 +589,7 @@ def main():
             df_summary = pd.DataFrame(summary_data)
             md_content += df_summary.to_markdown(index=False) + "\n\n"
     
-    # Save markdown report
+    # Save markdown report with proper formatting for GitHub
     with open('7.resilience_risk_analysis.md', 'w', encoding='utf-8') as f:
         f.write(md_content)
     
