@@ -13,6 +13,10 @@ def save_plot(fig, filename):
 
 def analyze_public_engagement():
     """Analyze public engagement data from Table 5"""
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     df = pd.read_csv('Data/table-5.csv', skiprows=11, encoding='utf-8')
     
     # Clean column names
@@ -23,25 +27,24 @@ def analyze_public_engagement():
     
     print("\n=== Public Engagement Analysis ===\n")
     
-    # 1. Analysis by Nature of Event (Attendees only)
-    print("Nature of Event Distribution (Durham) - Attendees:")
-    attendees_data = durham_data[durham_data['Metric'] == 'Attendees']
-    nature_dist = attendees_data.groupby('Nature of Event')['Value'].sum()
+    # 1. Analysis by Nature of Event (All metrics combined)
+    print("Nature of Event Distribution (Durham) - All Events:")
+    nature_dist = durham_data.groupby('Nature of Event')['Value'].sum()
     print(nature_dist)
     
-    # Calculate national statistics for attendees
+    # Calculate national statistics for total events
     total_universities = df['HE Provider'].nunique()
-    durham_attendees = nature_dist.sum()
-    national_attendees = df[df['Metric'] == 'Attendees'].groupby('HE Provider')['Value'].sum()
-    national_avg_attendees = national_attendees.mean()
-    durham_rank_attendees = (national_attendees > durham_attendees).sum() + 1
+    durham_total_events = nature_dist.sum()
+    national_total_events = df.groupby('HE Provider')['Value'].sum()
+    national_avg_total_events = national_total_events.mean()
+    durham_rank_total_events = (national_total_events > durham_total_events).sum() + 1
     
-    print("\nNational Statistics for Public Engagement (Attendees):")
+    print("\nNational Statistics for Total Events:")
     print(f"Total number of universities: {total_universities}")
-    print(f"Durham's rank: {durham_rank_attendees}/{total_universities}")
-    print(f"National average: {national_avg_attendees:,.0f}")
-    print(f"Durham's value: {durham_attendees:,.0f}")
-    print(f"Difference from national average: {durham_attendees - national_avg_attendees:,.0f}")
+    print(f"Durham's rank: {durham_rank_total_events}/{total_universities}")
+    print(f"National average: {national_avg_total_events:,.0f}")
+    print(f"Durham's value: {durham_total_events:,.0f}")
+    print(f"Difference from national average: {durham_total_events - national_avg_total_events:,.0f}")
     
     # Plot nature of event distribution
     plt.figure(figsize=(12, 6))
@@ -57,11 +60,11 @@ def analyze_public_engagement():
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.1_nature_of_event.png')
+    save_plot(plt.gcf(), 'figure30.nature_of_event.png')
     
-    # 2. Analysis by Type of Event (Attendees only)
-    print("\nType of Event Distribution (Durham) - Attendees:")
-    type_dist = attendees_data.groupby('Type of event')['Value'].sum()
+    # 2. Analysis by Type of Event (All metrics combined)
+    print("\nType of Event Distribution (Durham) - All Events:")
+    type_dist = durham_data.groupby('Type of event')['Value'].sum()
     print(type_dist)
     
     # Plot type of event distribution
@@ -78,7 +81,7 @@ def analyze_public_engagement():
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.2_type_of_event.png')
+    save_plot(plt.gcf(), 'figure31.type_of_event.png')
     
     # 3. Attendees Analysis
     print("\nAttendees Analysis (Durham):")
@@ -100,7 +103,7 @@ def analyze_public_engagement():
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.3_attendees_by_type.png')
+    save_plot(plt.gcf(), 'figure32.attendees_by_type.png')
     
     # 4. Academic Staff Time Analysis
     print("\nAcademic Staff Time Analysis (Durham):")
@@ -122,9 +125,26 @@ def analyze_public_engagement():
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.4_staff_time_by_type.png')
+    save_plot(plt.gcf(), 'figure33.staff_time_by_type.png')
     
-    # 5. North East Universities Comparison (Attendees only)
+    # 5. Total Events Analysis (All Metrics)
+    print("\nTotal Events Analysis (Durham) - All Metrics:")
+    durham_total_events = durham_data['Value'].sum()
+    print(f"Durham total events (all metrics): {durham_total_events:,}")
+    
+    # Calculate national statistics for total events
+    national_total_events = df.groupby('HE Provider')['Value'].sum()
+    national_avg_total_events = national_total_events.mean()
+    durham_rank_total_events = (national_total_events > durham_total_events).sum() + 1
+    
+    print("\nNational Statistics for Total Events:")
+    print(f"Total number of universities: {total_universities}")
+    print(f"Durham's rank: {durham_rank_total_events}/{total_universities}")
+    print(f"National average: {national_avg_total_events:,.0f}")
+    print(f"Durham's value: {durham_total_events:,.0f}")
+    print(f"Difference from national average: {durham_total_events - national_avg_total_events:,.0f}")
+    
+    # 6. North East Universities Comparison (Attendees only)
     print("\nNorth East Universities Comparison - Attendees:")
     ne_universities = ['University of Durham', 'Newcastle University', 
                       'University of Northumbria at Newcastle', 'Teesside University',
@@ -134,7 +154,13 @@ def analyze_public_engagement():
     ne_totals = ne_attendees.groupby('HE Provider')['Value'].sum()
     print(ne_totals)
     
-    # Plot North East universities comparison
+    # 7. North East Universities Comparison (Total Events)
+    print("\nNorth East Universities Comparison - Total Events:")
+    ne_total_events = df[df['HE Provider'].isin(ne_universities)]
+    ne_total_totals = ne_total_events.groupby('HE Provider')['Value'].sum()
+    print(ne_total_totals)
+    
+    # Plot North East universities comparison - Attendees
     plt.figure(figsize=(12, 6))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(ne_totals)))
     ax = plt.bar(ne_totals.index, ne_totals.values, color=colors)
@@ -148,7 +174,23 @@ def analyze_public_engagement():
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.5_ne_comparison.png')
+    save_plot(plt.gcf(), 'figure34.ne_comparison.png')
+    
+    # Plot North East universities comparison - Total Events
+    plt.figure(figsize=(12, 6))
+    colors = plt.cm.rainbow(np.linspace(0, 1, len(ne_total_totals)))
+    ax = plt.bar(ne_total_totals.index, ne_total_totals.values, color=colors)
+    plt.title('Public Engagement Comparison - North East Universities (Total Events)')
+    plt.xlabel('University')
+    plt.ylabel('Total Events (All Metrics)')
+    plt.xticks(rotation=45)
+    
+    # Add value labels on top of bars
+    for i, v in enumerate(ne_total_totals.values):
+        plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
+    
+    plt.tight_layout()
+    save_plot(plt.gcf(), 'figure34.ne_comparison.png')
 
 if __name__ == "__main__":
     analyze_public_engagement() 

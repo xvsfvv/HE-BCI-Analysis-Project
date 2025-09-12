@@ -13,6 +13,10 @@ def save_plot(fig, filename):
 
 def analyze_ip():
     """Main function to analyze all intellectual property related data"""
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     data_dir = Path('Data')
     tables = {
         'table4a': pd.read_csv(data_dir / 'table-4a.csv', skiprows=11, encoding='utf-8'),
@@ -64,7 +68,7 @@ def analyze_ip():
         plt.text(v, i, f'{v:,.0f}', ha='left', va='center', fontweight='bold')
     plt.grid(axis='x', alpha=0.3)
     plt.tight_layout()
-    save_plot(fig, '1.1_ip_disclosure_type.png')
+    save_plot(fig, 'figure18.ip_disclosure_type.png')
     
     # 1.2 Time Trend Analysis (Durham only)
     yearly_disclosures = durham_ip.groupby(['Academic Year', 'Type of disclosure or patent'])['Value'].sum().reset_index()
@@ -80,7 +84,7 @@ def analyze_ip():
     plt.legend(bbox_to_anchor=(0.5, 1.02), loc='lower center', ncol=1)
     plt.tight_layout()
     plt.subplots_adjust(top=0.75)
-    save_plot(fig, '1.2_ip_disclosure_trend.png')
+    save_plot(fig, 'figure19.ip_disclosure_trend.png')
     
     # 1.3 North East Universities Comparison
     ne_ip = tables['table4a'][tables['table4a']['HE Provider'].isin(north_east_universities)]
@@ -97,7 +101,7 @@ def analyze_ip():
     for i, v in enumerate(ne_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '1.3_ip_ne_comparison.png')
+    save_plot(fig, 'figure20.ip_ne_comparison.png')
     
     ###############################
 
@@ -106,12 +110,15 @@ def analyze_ip():
     
     # 2.1 License Type Analysis (Durham only)
     durham_license = tables['table4b'][tables['table4b']['HE Provider'] == 'University of Durham']
-    license_type = durham_license.groupby('Type of licence granted')['Value'].sum()
+    # Exclude Total rows to avoid double counting
+    durham_license_no_total = durham_license[~durham_license['Type of organisation'].str.contains('Total', na=False)]
+    license_type = durham_license_no_total.groupby('Type of licence granted')['Value'].sum()
     print("\nLicense Type Distribution (Durham):")
     print(license_type)
     
-    # National statistics for licenses
-    national_license = tables['table4b'].groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
+    # National statistics for licenses - exclude Total rows
+    national_license_no_total = tables['table4b'][~tables['table4b']['Type of organisation'].str.contains('Total', na=False)]
+    national_license = national_license_no_total.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     durham_rank = national_license.index.get_loc('University of Durham') + 1
     total_universities = len(national_license)
     national_avg = national_license.mean()
@@ -131,27 +138,82 @@ def analyze_ip():
     for i, v in enumerate(license_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.1_license_type.png')
+    save_plot(fig, 'figure21.license_type.png')
     
     # 2.2 Organization Type Analysis (Durham only)
-    org_type = durham_license.groupby('Type of organisation')['Value'].sum()
+    org_type_dist = durham_license_no_total.groupby('Type of organisation')['Value'].sum()
     print("\nOrganization Type Distribution (Durham):")
-    print(org_type)
+    print(org_type_dist)
+    
+    # 2.2.1 Detailed License Analysis by Type and Organization (for table)
+    print("\nDetailed License Analysis by Type and Organization (Durham):")
+    
+    # Non-software licenses
+    non_software_data = durham_license_no_total[durham_license_no_total['Type of licence granted'] == 'Non-software']
+    print("\nNon-software licenses:")
+    for org_type in ['Non-commercial organisations', 'Other (non-SME) commercial businesses', 'SMEs']:
+        total = non_software_data[non_software_data['Type of organisation'] == org_type]['Value'].sum()
+        print(f"  {org_type}: {total} total licenses")
+    
+    # Software only licenses
+    software_data = durham_license_no_total[durham_license_no_total['Type of licence granted'] == 'Software only']
+    print("\nSoftware only licenses:")
+    for org_type in ['Non-commercial organisations', 'Other (non-SME) commercial businesses', 'SMEs']:
+        total = software_data[software_data['Type of organisation'] == org_type]['Value'].sum()
+        print(f"  {org_type}: {total} total licenses")
+    
+    # Income generating licenses
+    total_income_gen = durham_license[durham_license['Type of organisation'] == 'Total number generating income in the period']['Value'].sum()
+    total_licenses = durham_license_no_total['Value'].sum()  # Use correct total
+    print(f"\nTotal licenses: {total_licenses}")
+    print(f"Total income generating: {total_income_gen}")
+    print(f"Income generation rate: {total_income_gen/total_licenses*100:.1f}%")
+    
+    # Calculate income generating licenses by type and organization (proportional distribution)
+    print("\nIncome generating licenses (proportional distribution):")
+    
+    # Non-software income generating
+    non_commercial_ns = non_software_data[non_software_data['Type of organisation'] == 'Non-commercial organisations']['Value'].sum()
+    commercial_ns = non_software_data[non_software_data['Type of organisation'] == 'Other (non-SME) commercial businesses']['Value'].sum()
+    sme_ns = non_software_data[non_software_data['Type of organisation'] == 'SMEs']['Value'].sum()
+    
+    non_commercial_sw = software_data[software_data['Type of organisation'] == 'Non-commercial organisations']['Value'].sum()
+    commercial_sw = software_data[software_data['Type of organisation'] == 'Other (non-SME) commercial businesses']['Value'].sum()
+    sme_sw = software_data[software_data['Type of organisation'] == 'SMEs']['Value'].sum()
+    
+    # Calculate proportional distribution
+    non_commercial_income = round((non_commercial_ns / total_licenses) * total_income_gen)
+    commercial_income = round((commercial_ns / total_licenses) * total_income_gen)
+    sme_income = round((sme_ns / total_licenses) * total_income_gen)
+    non_commercial_sw_income = round((non_commercial_sw / total_licenses) * total_income_gen)
+    commercial_sw_income = round((commercial_sw / total_licenses) * total_income_gen)
+    sme_sw_income = total_income_gen - non_commercial_income - commercial_income - sme_income - non_commercial_sw_income - commercial_sw_income
+    
+    print("Non-software:")
+    print(f"  Non-commercial organisations: {non_commercial_ns} total, {non_commercial_income} income-generating ({non_commercial_income/non_commercial_ns*100:.1f}%)")
+    print(f"  Other (non-SME) commercial: {commercial_ns} total, {commercial_income} income-generating ({commercial_income/commercial_ns*100:.1f}%)")
+    print(f"  SMEs: {sme_ns} total, {sme_income} income-generating ({sme_income/sme_ns*100:.1f}%)")
+    
+    print("Software only:")
+    print(f"  Non-commercial organisations: {non_commercial_sw} total, {non_commercial_sw_income} income-generating ({non_commercial_sw_income/non_commercial_sw*100:.1f}%)")
+    print(f"  Other (non-SME) commercial: {commercial_sw} total, {commercial_sw_income} income-generating ({commercial_sw_income/commercial_sw*100:.1f}%)")
+    print(f"  SMEs: {sme_sw} total, {sme_sw_income} income-generating ({sme_sw_income/sme_sw*100:.1f}%)")
     
     fig = plt.figure(figsize=(12, 6))
-    colors = plt.cm.rainbow(np.linspace(0, 1, len(org_type)))
-    ax = plt.bar(org_type.index, org_type.values, color=colors)
+    colors = plt.cm.rainbow(np.linspace(0, 1, len(org_type_dist)))
+    ax = plt.bar(range(len(org_type_dist)), org_type_dist.values, color=colors)
     plt.title('Licenses by Organisation Type (Durham)')
-    plt.xticks(rotation=45)
+    plt.xticks(range(len(org_type_dist)), org_type_dist.index, rotation=45)
     # Add value labels on top of bars
-    for i, v in enumerate(org_type.values):
+    for i, v in enumerate(org_type_dist.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.2_license_org_type.png')
+    save_plot(fig, 'figure22.license_org_type.png')
     
     # 2.3 North East Universities Comparison
     ne_license = tables['table4b'][tables['table4b']['HE Provider'].isin(north_east_universities)]
-    ne_license_total = ne_license.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
+    ne_license_no_total = ne_license[~ne_license['Type of organisation'].str.contains('Total', na=False)]
+    ne_license_total = ne_license_no_total.groupby('HE Provider')['Value'].sum().sort_values(ascending=False)
     print("\nTotal Licenses by University (North East):")
     print(ne_license_total)
     
@@ -164,7 +226,7 @@ def analyze_ip():
     for i, v in enumerate(ne_license_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.3_license_ne_comparison.png')
+    save_plot(fig, 'figure23.license_ne_comparison.png')
     
     #################################
     # 3. IP Income Analysis
@@ -198,7 +260,7 @@ def analyze_ip():
     for i, v in enumerate(income_source.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '3.1_ip_income_source.png')
+    save_plot(fig, 'figure24.ip_income_source.png')
     
     # 3.2 Organization Type Analysis (Durham only)
     org_type = durham_income.groupby('Type of organisation')['Value'].sum()
@@ -214,7 +276,7 @@ def analyze_ip():
     for i, v in enumerate(org_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '3.2_ip_income_org_type.png')
+    save_plot(fig, 'figure25.ip_income_org_type.png')
     
     # 3.3 North East Universities Comparison
     ne_income = tables['table4d'][(tables['table4d']['HE Provider'].isin(north_east_universities)) & 
@@ -232,7 +294,7 @@ def analyze_ip():
     for i, v in enumerate(ne_income_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '3.3_ip_income_ne_comparison.png')
+    save_plot(fig, 'figure26.ip_income_ne_comparison.png')
     
     ###############################
     # 4. spin-off Company Analysis
@@ -304,7 +366,7 @@ def analyze_ip():
     ax.grid(True)
     
     plt.tight_layout()
-    save_plot(fig, '4.1_spin_metric_type.png')
+    save_plot(fig, 'figure27.spin_metric_type.png')
     
     # 4.2 Category Analysis (Durham only)
     category = durham_spin.groupby('Category Marker')['Value'].sum()
@@ -328,25 +390,29 @@ def analyze_ip():
         'Student Start-ups'
     ]
     
-    # Create pie chart with percentage labels
-    wedges, texts, autotexts = plt.pie(sizes, labels=short_labels, colors=colors, autopct='%1.1f%%',
-                                       startangle=90, textprops={'fontsize': 11})
+    # Create pie chart without any labels on the pie
+    wedges, texts = plt.pie(sizes, labels=None, colors=colors, autopct=None,
+                            startangle=90, textprops={'fontsize': 11})
     
     # Customize the pie chart
     plt.title('Spin-off Companies by Category (Durham)', fontsize=14, fontweight='bold', pad=20)
     
-    # Add value labels outside the pie
-    for i, (wedge, size) in enumerate(zip(wedges, sizes)):
-        angle = (wedge.theta2 + wedge.theta1) / 2
-        x = 1.2 * np.cos(np.radians(angle))
-        y = 1.2 * np.sin(np.radians(angle))
-        plt.annotate(f'{size:,.0f}', xy=(x, y), ha='center', va='center', 
-                    fontweight='bold', fontsize=9)
+    # Add a legend with values and percentages for all categories
+    total = sum(sizes)
+    legend_labels = [f'{label}: {size:,.0f} ({size/total*100:.1f}%)' for label, size in zip(short_labels, sizes)]
+    legend = plt.legend(wedges, legend_labels, title="Categories (Values & Percentages)", 
+                       loc="center", bbox_to_anchor=(0.5, 0.5), fontsize=10)
+    
+    # Add background color to legend
+    legend.get_frame().set_facecolor('white')
+    legend.get_frame().set_alpha(0.8)
+    legend.get_frame().set_edgecolor('black')
+    legend.get_frame().set_linewidth(1)
     
     # Equal aspect ratio ensures that pie is drawn as a circle
     plt.axis('equal')
     plt.tight_layout()
-    save_plot(fig, '4.2_spin_category.png')
+    save_plot(fig, 'figure28.spin_category.png')
     
     # 4.3 North East Universities Comparison
     ne_spin = tables['table4e'][tables['table4e']['HE Provider'].isin(north_east_universities)]
@@ -363,7 +429,7 @@ def analyze_ip():
     for i, v in enumerate(ne_spin_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '4.3_spin_ne_comparison.png')
+    save_plot(fig, 'figure29.spin_ne_comparison.png')
 
 if __name__ == "__main__":
     analyze_ip() 

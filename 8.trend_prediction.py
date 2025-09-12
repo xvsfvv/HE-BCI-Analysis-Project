@@ -35,6 +35,10 @@ def save_plot(fig, filename):
 def load_data():
     print("Loading data files...")
     
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     ne_universities = [
         'University of Durham',
         'Newcastle University',
@@ -262,8 +266,8 @@ def create_clustering_visualizations(features_df, kmeans, hierarchical, linkage_
     plt.ylabel('Distance')
     
     plt.tight_layout()
-    save_plot(plt.gcf(), 'clustering_analysis.png')
-    print("Clustering analysis plot saved as 'clustering_analysis.png'")
+    save_plot(plt.gcf(), 'figure44.clustering_analysis.png')
+    print("Clustering analysis plot saved as 'figure44.clustering_analysis.png'")
     
     return features_df
 
@@ -622,8 +626,18 @@ def predict_trends(data, ne_universities):
         if lines:
             plt.figlegend(lines, labels, loc='upper center', ncol=len(labels), bbox_to_anchor=(0.5, 1.02))
         plt.tight_layout(rect=[0, 0, 1, 0.97])
-        save_plot(plt.gcf(), f'trend_predictions_{method_key}.png')
-        print(f"Trend predictions plot saved as 'trend_predictions_{method_key}.png'")
+        # Map method keys to report figure names
+        figure_mapping = {
+            'linear_regression': 'appendix2.trend_predictions_linear_regression.png',
+            'exponential_smoothing': 'figure43.trend_predictions_exponential_smoothing.png',
+            'random_forest': 'appendix3.trend_predictions_random_forest.png',
+            'arima': 'appendix1.trend_predictions_arima.png',
+            'xgboost': 'appendix4.trend_predictions_xgboost.png'
+        }
+        
+        figure_name = figure_mapping.get(method_key, f'trend_predictions_{method_key}.png')
+        save_plot(plt.gcf(), figure_name)
+        print(f"Trend predictions plot saved as '{figure_name}'")
     print("\n=== All Methods Summary ===")
     md_lines = ["# Trend Prediction Summary\n"]
     for method_name in all_methods_summary:

@@ -14,6 +14,10 @@ def save_plot(fig, filename):
 
 
 def load_data():
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     ne_universities = [
         'University of Durham',
         'Newcastle University',
@@ -213,8 +217,8 @@ def analyze_ne_volatility(volatility_data, ne_universities):
                     f'{cv:.3f}', ha='center', va='bottom')
 
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.ne_volatility_comparison.png')
-    print("\nNorth East volatility comparison plot saved as '1.ne_volatility_comparison.png'")
+    save_plot(plt.gcf(), 'figure41.ne_volatility_comparison.png')
+    print("\nNorth East volatility comparison plot saved as 'figure41.ne_volatility_comparison.png'")
 
     return ne_volatility_summary
 
@@ -256,7 +260,21 @@ def analyze_national_volatility_ranking(volatility_data, ne_universities):
         
         # Add university labels
         for j, univ in enumerate(universities):
-            plt.annotate(univ.split()[-1], (ranks[j], cvs[j]), 
+            # Use shorter but more descriptive labels
+            if 'University of Durham' in univ:
+                label = 'Durham'
+            elif 'Newcastle University' in univ:
+                label = 'Newcastle'
+            elif 'University of Northumbria' in univ:
+                label = 'Northumbria'
+            elif 'Teesside University' in univ:
+                label = 'Teesside'
+            elif 'University of Sunderland' in univ:
+                label = 'Sunderland'
+            else:
+                label = univ.split()[-1]
+            
+            plt.annotate(label, (ranks[j], cvs[j]), 
                         xytext=(5, 5), textcoords='offset points', fontsize=8)
         
         plt.title(f'{metric_name} Volatility - National Rankings')
@@ -268,8 +286,8 @@ def analyze_national_volatility_ranking(volatility_data, ne_universities):
         plt.gca().invert_xaxis()
 
     plt.tight_layout()
-    save_plot(plt.gcf(), '2.national_volatility_rankings.png')
-    print("\nNational volatility rankings plot saved as '2.national_volatility_rankings.png'")
+    save_plot(plt.gcf(), 'figure42.national_volatility_rankings.png')
+    print("\nNational volatility rankings plot saved as 'figure42.national_volatility_rankings.png'")
 
     return national_rankings
 
@@ -419,6 +437,7 @@ def main():
     
     # Analyze income concentration
     concentration_data = analyze_income_concentration(data, ne_universities)
+    
     
     # Analyze NE volatility
     ne_volatility_summary = analyze_ne_volatility(volatility_data, ne_universities)

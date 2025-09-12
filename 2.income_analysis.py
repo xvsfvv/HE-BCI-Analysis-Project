@@ -13,6 +13,10 @@ def save_plot(fig, filename):
 
 def analyze_income():
     """Main function to analyze all income-related data"""
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     data_dir = Path('Data')
     tables = {
         'table1': pd.read_csv(data_dir / 'table-1.csv', skiprows=11, encoding='utf-8'),
@@ -60,7 +64,7 @@ def analyze_income():
     for i, v in enumerate(funding_source.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '1.1_research_funding_source.png')
+    save_plot(fig, 'figure3.research_funding_source.png')
     
     # 1.2 Income Type Analysis (Durham only)
     income_type = durham_data.groupby('Type of income')['Value'].sum()
@@ -76,7 +80,7 @@ def analyze_income():
     for i, v in enumerate(income_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '1.2_research_income_type.png')
+    save_plot(fig, 'figure4.research_income_type.png')
     
     # 1.3 Time Trend Analysis (Durham only)
     yearly_income = durham_data[durham_data['Type of income'] == 'Total'].groupby(['Academic Year', 'Source of public funding'])['Value'].sum().reset_index()
@@ -91,7 +95,7 @@ def analyze_income():
     plt.xticks(rotation=45)
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
-    save_plot(fig, '1.3_research_time_trend.png')
+    save_plot(fig, 'figure5.research_time_trend.png')
     
     # 1.4 North East Universities Comparison
     print("\n=== North East Universities Comparison ===")
@@ -112,7 +116,7 @@ def analyze_income():
     for i, v in enumerate(ne_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '1.4_research_ne_comparison.png')
+    save_plot(fig, 'figure6.research_ne_comparison.png')
     
     # Compare with national average
     national_avg = tables['table1'][tables['table1']['Type of income'] == 'Total'].groupby('HE Provider')['Value'].sum().mean()
@@ -125,12 +129,18 @@ def analyze_income():
     
     # 2.1 Service Type Analysis (Durham only)
     durham_services = tables['table2a'][tables['table2a']['HE Provider'] == 'University of Durham']
-    service_type = durham_services.groupby('Type of service')['Number/Value'].sum()
-    print("\nService Type Distribution (Durham):")
+    # Only use Value data for business services income (not Number data)
+    durham_services_value = durham_services[durham_services['Number/Value Marker'] == 'Value']
+    # Exclude Total rows to avoid double counting
+    durham_services_no_total = durham_services_value[durham_services_value['Type of organisation'] != 'Total']
+    service_type = durham_services_no_total.groupby('Type of service')['Number/Value'].sum()
+    print("\nService Type Distribution (Durham) - Value Only:")
     print(service_type)
     
-    # National statistics for business services
-    national_services = tables['table2a'].groupby('HE Provider')['Number/Value'].sum().sort_values(ascending=False)
+    # National statistics for business services - only Value data, exclude Total rows
+    national_services_value = tables['table2a'][tables['table2a']['Number/Value Marker'] == 'Value']
+    national_services_no_total = national_services_value[national_services_value['Type of organisation'] != 'Total']
+    national_services = national_services_no_total.groupby('HE Provider')['Number/Value'].sum().sort_values(ascending=False)
     durham_rank = national_services.index.get_loc('University of Durham') + 1
     total_universities = len(national_services)
     national_avg = national_services.mean()
@@ -150,11 +160,11 @@ def analyze_income():
     for i, v in enumerate(service_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.1_services_type.png')
+    save_plot(fig, 'figure7.services_type.png')
     
-    # 2.2 Organization Type Analysis (Durham only)
-    org_type = durham_services.groupby('Type of organisation')['Number/Value'].sum()
-    print("\nOrganization Type Distribution (Durham):")
+    # 2.2 Organization Type Analysis (Durham only) - Value only
+    org_type = durham_services_no_total.groupby('Type of organisation')['Number/Value'].sum()
+    print("\nOrganization Type Distribution (Durham) - Value Only:")
     print(org_type)
     
     fig = plt.figure(figsize=(12, 6))
@@ -166,11 +176,11 @@ def analyze_income():
     for i, v in enumerate(org_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.2_services_org_type.png')
+    save_plot(fig, 'figure8.services_org_type.png')
     
-    # 2.3 Metric Type Analysis (Durham only)
+    # 2.3 Metric Type Analysis (Durham only) - Show both Number and Value for reference
     metric_type = durham_services.groupby('Number/Value Marker')['Number/Value'].sum()
-    print("\nMetric Type Distribution (Durham):")
+    print("\nMetric Type Distribution (Durham) - Reference:")
     print(metric_type)
     
     fig = plt.figure(figsize=(12, 6))
@@ -182,12 +192,14 @@ def analyze_income():
     for i, v in enumerate(metric_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.3_services_metric_type.png')
+    save_plot(fig, 'figure9.services_metric_type.png')
     
-    # 2.4 North East Universities Business Services Comparison
+    # 2.4 North East Universities Business Services Comparison - Value only
     ne_services = tables['table2a'][tables['table2a']['HE Provider'].isin(north_east_universities)]
-    ne_services_total = ne_services.groupby('HE Provider')['Number/Value'].sum().sort_values(ascending=False)
-    print("\nTotal Business Services by University (North East):")
+    ne_services_value = ne_services[ne_services['Number/Value Marker'] == 'Value']
+    ne_services_no_total = ne_services_value[ne_services_value['Type of organisation'] != 'Total']
+    ne_services_total = ne_services_no_total.groupby('HE Provider')['Number/Value'].sum().sort_values(ascending=False)
+    print("\nTotal Business Services by University (North East) - Value Only:")
     print(ne_services_total)
     
     fig = plt.figure(figsize=(12, 6))
@@ -199,7 +211,7 @@ def analyze_income():
     for i, v in enumerate(ne_services_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '2.4_services_ne_comparison.png')
+    save_plot(fig, 'figure10.services_ne_comparison.png')
     
     # 3. CPD and Continuing Education Analysis
     print("\n=== CPD and Continuing Education Analysis ===")
@@ -231,7 +243,7 @@ def analyze_income():
     for i, v in enumerate(category.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '3.1_cpd_category.png')
+    save_plot(fig, 'figure11.cpd_category.png')
     
     # 3.2 Unit Type Analysis (Durham only)
     unit_type = durham_cpd.groupby('Unit')['Value'].sum()
@@ -247,7 +259,7 @@ def analyze_income():
     for i, v in enumerate(unit_type.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '3.2_cpd_unit_type.png')
+    save_plot(fig, 'figure12.cpd_unit_type.png')
     
     # 3.3 North East Universities CPD Comparison
     ne_cpd = tables['table2b'][(tables['table2b']['HE Provider'].isin(north_east_universities)) & 
@@ -265,7 +277,7 @@ def analyze_income():
     for i, v in enumerate(ne_cpd_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '3.3_cpd_ne_comparison.png')
+    save_plot(fig, 'figure13.cpd_ne_comparison.png')
     
     # 4. Regeneration and Development Analysis
     print("\n=== Regeneration and Development Analysis ===")
@@ -302,7 +314,7 @@ def analyze_income():
     
     # Adjust layout to prevent label cutoff - significantly increase bottom margin
     plt.subplots_adjust(bottom=0.45, left=0.08, right=0.92)
-    save_plot(fig, '4.1_regeneration_programme.png')
+    save_plot(fig, 'figure14.regeneration_programme.png')
     
     # 4.2 Time Trend Analysis (Durham only)
     yearly_regeneration = durham_regeneration[durham_regeneration['Programme'] == 'Total programmes'].groupby(['Academic Year', 'Programme'])['Value'].sum().reset_index()
@@ -317,7 +329,7 @@ def analyze_income():
     plt.xticks(rotation=45)
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
-    save_plot(fig, '4.2_regeneration_time_trend.png')
+    save_plot(fig, 'figure15.regeneration_time_trend.png')
     
     # 4.3 North East Universities Regeneration Comparison
     ne_regeneration = tables['table3'][(tables['table3']['HE Provider'].isin(north_east_universities)) & 
@@ -335,7 +347,7 @@ def analyze_income():
     for i, v in enumerate(ne_regeneration_total.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '4.3_regeneration_ne_comparison.png')
+    save_plot(fig, 'figure16.regeneration_ne_comparison.png')
     
     # 5. Overall Performance Summary
     print("\n=== Overall Performance Summary ===")
@@ -345,7 +357,9 @@ def analyze_income():
     for uni in north_east_universities:
         research = tables['table1'][(tables['table1']['HE Provider'] == uni) & 
                                   (tables['table1']['Type of income'] == 'Total')]['Value'].sum()
-        services = tables['table2a'][tables['table2a']['HE Provider'] == uni]['Number/Value'].sum()
+        services = tables['table2a'][(tables['table2a']['HE Provider'] == uni) & 
+                                    (tables['table2a']['Number/Value Marker'] == 'Value') & 
+                                    (tables['table2a']['Type of organisation'] != 'Total')]['Number/Value'].sum()
         cpd = tables['table2b'][(tables['table2b']['HE Provider'] == uni) & 
                                (tables['table2b']['Category Marker'] == 'Total revenue')]['Value'].sum()
         regeneration = tables['table3'][(tables['table3']['HE Provider'] == uni) & 
@@ -365,7 +379,7 @@ def analyze_income():
     for i, v in enumerate(total_income.values):
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
-    save_plot(fig, '5.1_overall_performance.png')
+    save_plot(fig, 'figure17._overall_performance.png')
 
 if __name__ == "__main__":
     analyze_income() 

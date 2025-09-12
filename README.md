@@ -178,7 +178,7 @@ python 8.trend_prediction.py
 ## 📈 Key Findings
 
 ### Durham University Performance Highlights
-- **Research Income**: £639,706, national ranking 33/227, exceeding national average by £255,512
+- **Research Income**: £216,850, national ranking 33/227, exceeding national average by £87,327
 - **IP Disclosures**: 3,458 items, national ranking 28/228, patent portfolio of 2,019 patents
 - **Spin-out Companies**: 642 active companies, employing 5,455 staff, turnover £542.35 million
 - **Public Engagement**: 6,043,792 activities, 72.1% free, 6,024,744 participants
@@ -189,15 +189,15 @@ python 8.trend_prediction.py
 - **Competitive Advantages**: Outstanding performance in research and public engagement
 
 ### Improvement Opportunities
-- **IP Commercialization**: Only 1.7% of licenses generate income, commercialization efficiency needs improvement
+- **IP Commercialization**: Only 3.7% of licenses generate income, commercialization efficiency needs improvement
 - **CPD Income**: High learner days but low income, pricing strategy needs optimization
 - **Business Services**: High income volatility (CV=0.380), diversification strategy needed
 
 ## 🔮 Trend Predictions
 
 ### Future Development Trends
-- **Research Income**: Predicted growth of 25.70%-27.04%
-- **CPD Income**: Predicted growth of 39.28%
+- **Research Income**: Predicted growth of 18.82%-26.19% (Linear Regression/Exponential Smoothing)
+- **CPD Income**: Predicted decline of 15.15%-15.62% (attention needed)
 - **IP Disclosures**: Predicted growth of 50.49%
 - **Business Income**: Predicted decline of 31.56%-54.84% (attention needed)
 
@@ -211,7 +211,7 @@ The project employs **five advanced prediction models**:
 
 ## 📊 Visualization Output
 
-The project generates **40+ high-quality charts** covering:
+The project generates **50 high-quality charts** covering:
 - Income distribution and trend charts
 - IP activity radar charts and comparison charts
 - Public engagement activity distribution charts
@@ -299,14 +299,6 @@ The project employs a **systematic analytical framework**:
 - **Data Cleaning**: Column name standardization, data type conversion
 - **Time Series Conversion**: Academic year data conversion to numerical time series
 - **Outlier Handling**: Identification and processing of extreme values
-
-## 🔗 Repository Information
-
-- **GitHub Repository**: [https://github.com/xvsfvv/HE-BCI-Analysis-Project](https://github.com/xvsfvv/HE-BCI-Analysis-Project)
-- **Data Source**: [HESA HE-BCI Survey](https://www.hesa.ac.uk/data-and-analysis/business-community)
-- **Project Status**: ✅ Completed
-- **Last Updated**: December 2024
-- **Version**: 1.0.0
 
 ## 🙏 Acknowledgments
 

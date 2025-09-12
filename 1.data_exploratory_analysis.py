@@ -38,7 +38,7 @@ def create_dataset_visualizations(all_data):
     plt.ylabel('Number of Missing Values')
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig(output_dir / '1.missing_values_comparison.png')
+    plt.savefig(output_dir / 'figure1.missing_values_comparison.png')
     plt.close()
     print("✓ Missing values comparison chart saved")
     
@@ -51,7 +51,7 @@ def create_dataset_visualizations(all_data):
     plt.title('Distribution of Institutions by Region')
     plt.axis('equal')
     plt.tight_layout()
-    plt.savefig(output_dir / '2.regional_distribution_pie.png')
+    plt.savefig(output_dir / 'figure45.regional_distribution_pie.png')
     plt.close()
     print("✓ Regional distribution pie chart saved")
     
@@ -96,7 +96,7 @@ def create_dataset_visualizations(all_data):
     plt.grid(True)
     plt.xticks(rotation=45)
     plt.tight_layout()
-    plt.savefig(output_dir / '3.ne_institutions_trends.png')
+    plt.savefig(output_dir / 'figure2.ne_institutions_trends.png')
     plt.close()
     print("✓ North East institutions trends chart saved")
     
@@ -157,7 +157,7 @@ def create_dataset_visualizations(all_data):
     ax4.set_xticklabels(all_data.keys(), rotation=45)
     
     plt.tight_layout()
-    plt.savefig(output_dir / '4.dataset_overview.png')
+    plt.savefig(output_dir / 'figure46.dataset_overview.png')
     plt.close()
     print("✓ Dataset overview chart saved")
     print("All visualization charts created successfully!")

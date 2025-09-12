@@ -14,6 +14,10 @@ def save_plot(fig, filename):
 
 
 def load_data():
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     ne_universities = [
         'University of Durham',
         'Newcastle University',
@@ -55,42 +59,79 @@ def load_data():
 
 
 def calculate_correlations(data):
-    """Calculate correlations between different metrics"""
+    """Calculate correlations between different metrics for North East universities only"""
     print("\n=== Correlation Analysis ===\n")
 
-    # Prepare metrics for correlation analysis
+    # Define North East universities
+    ne_universities = [
+        'University of Durham',
+        'Newcastle University',
+        'University of Northumbria at Newcastle',
+        'Teesside University',
+        'The University of Sunderland'
+    ]
+
+    # Prepare metrics for correlation analysis (North East universities only)
     metrics = {}
 
     # Research income - only use Total type to avoid double counting
     research_filtered = data['research'][data['research']['Type of income'] == 'Total']
-    metrics['Research Income'] = research_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    research_data = research_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    research_data = research_data[research_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['Research Income'] = research_data
 
     # Business services income
     # For table-2a, the value column is the last column (unnamed)
-    metrics['Business Income'] = data['business'].groupby(['HE Provider', 'Academic Year'])[
-        data['business'].columns[-1]].sum()
+    business_data = data['business'].groupby(['HE Provider', 'Academic Year'])[data['business'].columns[-1]].sum()
+    # Filter for North East universities only
+    business_data = business_data[business_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['Business Income'] = business_data
 
     # CPD income - only use Total revenue to avoid double counting
     cpd_filtered = data['cpd'][data['cpd']['Category Marker'] == 'Total revenue']
-    metrics['CPD Income'] = cpd_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    cpd_data = cpd_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    cpd_data = cpd_data[cpd_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['CPD Income'] = cpd_data
 
     # Regeneration income - only use Total programmes to avoid double counting
     regeneration_filtered = data['regeneration'][data['regeneration']['Programme'] == 'Total programmes']
-    metrics['Regeneration Income'] = regeneration_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    regeneration_data = regeneration_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    regeneration_data = regeneration_data[regeneration_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['Regeneration Income'] = regeneration_data
 
     # IP metrics
-    metrics['IP Disclosures'] = data['ip_disclosures'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
-    metrics['IP Licenses'] = data['ip_licenses'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    ip_disclosures_data = data['ip_disclosures'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    ip_disclosures_data = ip_disclosures_data[ip_disclosures_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['IP Disclosures'] = ip_disclosures_data
+
+    ip_licenses_data = data['ip_licenses'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    ip_licenses_data = ip_licenses_data[ip_licenses_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['IP Licenses'] = ip_licenses_data
+
     # IP Income - only use Total IP revenues to avoid double counting
     ip_income_filtered = data['ip_income_total'][data['ip_income_total']['Category Marker'] == 'Total IP revenues']
-    metrics['IP Income'] = ip_income_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    ip_income_data = ip_income_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    ip_income_data = ip_income_data[ip_income_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['IP Income'] = ip_income_data
 
     # Spin-out employment
-    metrics['Spin-out Employment'] = data['spinouts'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    spinouts_data = data['spinouts'].groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    spinouts_data = spinouts_data[spinouts_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['Spin-out Employment'] = spinouts_data
 
     # Public engagement - only use Attendees to avoid mixing units
     pe_attendees = data['public_engagement'][data['public_engagement']['Metric'] == 'Attendees']
-    metrics['Public Engagement'] = pe_attendees.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    pe_data = pe_attendees.groupby(['HE Provider', 'Academic Year'])['Value'].sum()
+    # Filter for North East universities only
+    pe_data = pe_data[pe_data.index.get_level_values('HE Provider').isin(ne_universities)]
+    metrics['Public Engagement'] = pe_data
 
     # Create correlation matrix
     corr_matrix = pd.DataFrame(metrics).corr()
@@ -111,9 +152,9 @@ def calculate_correlations(data):
     plt.yticks(range(len(corr_matrix)), corr_matrix.index)
     plt.title('Correlation Matrix of Key Metrics')
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.correlation_matrix.png')
+    save_plot(plt.gcf(), 'figure36.correlation_matrix.png')
 
-    print("Correlation matrix saved as '1.correlation_matrix.png'")
+    print("Correlation matrix saved as 'figure36.correlation_matrix.png'")
     print("\nTop 5 strongest correlations:")
     corr_pairs = corr_matrix.unstack().sort_values(ascending=False)
     corr_pairs = corr_pairs[corr_pairs != 1.0]  # Remove self-correlations
@@ -164,8 +205,8 @@ def analyze_rankings(data):
 
     plt.figlegend(lines, labels, loc='upper center', ncol=len(labels), bbox_to_anchor=(0.5, 1.02))
     plt.tight_layout(rect=[0, 0, 1, 0.97])
-    save_plot(plt.gcf(), '2.ranking_changes.png')
-    print("Ranking changes plot saved as '2.ranking_changes.png'")
+    save_plot(plt.gcf(), 'figure35.ranking_changes.png')
+    print("Ranking changes plot saved as 'figure35.ranking_changes.png'")
     return rankings
 
 
@@ -227,8 +268,8 @@ def analyze_specialization(data):
 
     plt.figlegend(lines, labels, loc='upper center', ncol=len(labels), bbox_to_anchor=(0.5, 1.02))
     plt.tight_layout(rect=[0, 0, 1, 0.97])
-    save_plot(plt.gcf(), '3.specialization_indices.png')
-    print("Specialization indices plot saved as '3.specialization_indices.png'")
+    save_plot(plt.gcf(), 'figure37.specialization_indices.png')
+    print("Specialization indices plot saved as 'figure37.specialization_indices.png'")
     return specialization
 
 

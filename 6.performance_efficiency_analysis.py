@@ -14,6 +14,10 @@ def save_plot(fig, filename):
 
 
 def load_data():
+    # Set consistent font settings
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Helvetica']
+    
     ne_universities = [
         'University of Durham',
         'Newcastle University',
@@ -95,6 +99,20 @@ def calculate_efficiency_metrics(data, ne_universities):
     efficiency_data['IP'] = ip_efficiency
     print(f"IP efficiency calculated for {len(ip_efficiency)} observations")
 
+    # 4. CPD Efficiency
+    print("4. CPD Efficiency Analysis")
+    # Only use Total revenue to avoid double counting
+    cpd_filtered = data['cpd'][data['cpd']['Category Marker'] == 'Total revenue']
+    cpd_by_univ = cpd_filtered.groupby(['HE Provider', 'Academic Year'])['Value'].sum().reset_index()
+    cpd_efficiency = cpd_by_univ.merge(staff_time_by_univ, 
+                                      on=['HE Provider', 'Academic Year'], 
+                                      how='left')
+    cpd_efficiency['efficiency'] = cpd_efficiency['Value_x'] / cpd_efficiency['Value_y']
+    cpd_efficiency = cpd_efficiency.replace([np.inf, -np.inf], np.nan)
+    
+    efficiency_data['CPD'] = cpd_efficiency
+    print(f"CPD efficiency calculated for {len(cpd_efficiency)} observations")
+
     return efficiency_data
 
 
@@ -119,10 +137,10 @@ def analyze_ne_efficiency(efficiency_data, ne_universities):
         ne_efficiency_summary[metric_name] = avg_efficiency
 
     # Create visualization for NE efficiency comparison
-    plt.figure(figsize=(20, 6))
+    plt.figure(figsize=(26, 6))
     
     for i, (metric_name, avg_efficiency) in enumerate(ne_efficiency_summary.items(), 1):
-        plt.subplot(1, 3, i)
+        plt.subplot(1, 4, i)
         
         # Create bar chart
         universities = list(avg_efficiency.index)
@@ -143,8 +161,8 @@ def analyze_ne_efficiency(efficiency_data, ne_universities):
                         f'GBP {eff:.1f}', ha='center', va='bottom')
 
     plt.tight_layout()
-    save_plot(plt.gcf(), '1.ne_efficiency_comparison.png')
-    print("\nNorth East efficiency comparison plot saved as '1.ne_efficiency_comparison.png'")
+    save_plot(plt.gcf(), 'figure38.ne_efficiency_comparison.png')
+    print("\nNorth East efficiency comparison plot saved as 'figure38.ne_efficiency_comparison.png'")
 
     return ne_efficiency_summary
 
@@ -173,10 +191,10 @@ def analyze_national_efficiency_ranking(efficiency_data, ne_universities):
         national_rankings[metric_name] = ne_rankings
 
     # Create visualization for national rankings
-    plt.figure(figsize=(20, 6))
+    plt.figure(figsize=(26, 6))
     
     for i, (metric_name, rankings) in enumerate(national_rankings.items(), 1):
-        plt.subplot(1, 3, i)
+        plt.subplot(1, 4, i)
         
         universities = list(rankings.keys())
         ranks = [rankings[univ]['rank'] for univ in universities]
@@ -188,7 +206,21 @@ def analyze_national_efficiency_ranking(efficiency_data, ne_universities):
         
         # Add university labels
         for j, univ in enumerate(universities):
-            plt.annotate(univ.split()[-1], (ranks[j], efficiencies[j]), 
+            # Use shorter but more descriptive labels
+            if 'University of Durham' in univ:
+                label = 'Durham'
+            elif 'Newcastle University' in univ:
+                label = 'Newcastle'
+            elif 'University of Northumbria' in univ:
+                label = 'Northumbria'
+            elif 'Teesside University' in univ:
+                label = 'Teesside'
+            elif 'University of Sunderland' in univ:
+                label = 'Sunderland'
+            else:
+                label = univ.split()[-1]
+            
+            plt.annotate(label, (ranks[j], efficiencies[j]), 
                         xytext=(5, 5), textcoords='offset points', fontsize=8)
         
         plt.title(f'{metric_name} Efficiency - National Rankings')
@@ -200,8 +232,8 @@ def analyze_national_efficiency_ranking(efficiency_data, ne_universities):
         plt.gca().invert_xaxis()
 
     plt.tight_layout()
-    save_plot(plt.gcf(), '2.national_efficiency_rankings.png')
-    print("\nNational efficiency rankings plot saved as '2.national_efficiency_rankings.png'")
+    save_plot(plt.gcf(), 'figure40.national_efficiency_rankings.png')
+    print("\nNational efficiency rankings plot saved as 'figure40.national_efficiency_rankings.png'")
 
     return national_rankings
 
@@ -211,14 +243,14 @@ def analyze_efficiency_trends(efficiency_data, ne_universities):
     print("\n=== Efficiency Trends Analysis ===\n")
 
     # Create trend analysis for each metric
-    plt.figure(figsize=(20, 6))
+    plt.figure(figsize=(26, 6))
     
     lines = []
     labels = []
     colors = plt.cm.rainbow(np.linspace(0, 1, len(ne_universities)))
     
     for i, (metric_name, data) in enumerate(efficiency_data.items(), 1):
-        plt.subplot(1, 3, i)
+        plt.subplot(1, 4, i)
         
         # Filter for NE universities
         ne_data = data[data['HE Provider'].isin(ne_universities)]
@@ -243,8 +275,8 @@ def analyze_efficiency_trends(efficiency_data, ne_universities):
     plt.figlegend(lines, labels, loc='upper center', ncol=len(labels), bbox_to_anchor=(0.5, 1.05))
 
     plt.tight_layout()
-    save_plot(plt.gcf(), '3.efficiency_trends.png')
-    print("\nEfficiency trends plot saved as '3.efficiency_trends.png'")
+    save_plot(plt.gcf(), 'figure39.efficiency_trends.png')
+    print("\nEfficiency trends plot saved as 'figure39.efficiency_trends.png'")
 
     # Calculate trend statistics
     trend_summary = {}
