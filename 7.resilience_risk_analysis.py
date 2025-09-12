@@ -571,11 +571,11 @@ def main():
             md_content += df_summary.to_markdown(index=False) + "\n\n"
     
     # Save markdown report
-    with open('8.resilience_risk_analysis.md', 'w', encoding='utf-8') as f:
+    with open('7.resilience_risk_analysis.md', 'w', encoding='utf-8') as f:
         f.write(md_content)
     
     print("\nResilience and Risk Analysis completed!")
-    print("Results have been saved to '8.resilience_risk_analysis.md'")
+    print("Results have been saved to '7.resilience_risk_analysis.md'")
 
 
 if __name__ == "__main__":
