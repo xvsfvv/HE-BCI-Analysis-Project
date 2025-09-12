@@ -151,6 +151,38 @@ def analyze_income():
     print(f"Durham's value: £{national_services['University of Durham']:,.0f}")
     print(f"Difference from national average: £{national_services['University of Durham'] - national_avg:,.0f}")
     
+    # 2.1.1 Detailed Cross-tabulation Analysis (Durham only) - Value data
+    print("\n=== Detailed Business Services Cross-tabulation (Durham) ===")
+    durham_cross_tab = durham_services_no_total.groupby(['Type of service', 'Type of organisation'])['Number/Value'].sum().unstack(fill_value=0)
+    print("\nCross-tabulation: Service Type vs Organization Type (Value in £000s):")
+    print(durham_cross_tab)
+    
+    # Calculate percentages for each service type
+    print("\nPercentage breakdown by service type:")
+    for service in durham_cross_tab.index:
+        total_service = durham_cross_tab.loc[service].sum()
+        print(f"\n{service} (Total: £{total_service:,.0f}):")
+        for org_type in durham_cross_tab.columns:
+            value = durham_cross_tab.loc[service, org_type]
+            percentage = (value / total_service) * 100 if total_service > 0 else 0
+            print(f"  {org_type}: £{value:,.0f} ({percentage:.1f}%)")
+    
+    # Calculate overall percentages
+    total_business_services = durham_cross_tab.sum().sum()
+    print(f"\nOverall Business Services Total: £{total_business_services:,.0f}")
+    print("\nOverall percentage breakdown:")
+    for service in durham_cross_tab.index:
+        total_service = durham_cross_tab.loc[service].sum()
+        percentage = (total_service / total_business_services) * 100
+        print(f"{service}: £{total_service:,.0f} ({percentage:.1f}%)")
+    
+    # Organization type breakdown
+    print("\nOrganization type breakdown:")
+    org_totals = durham_cross_tab.sum()
+    for org_type in org_totals.index:
+        percentage = (org_totals[org_type] / total_business_services) * 100
+        print(f"{org_type}: £{org_totals[org_type]:,.0f} ({percentage:.1f}%)")
+    
     fig = plt.figure(figsize=(12, 6))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(service_type)))
     ax = plt.bar(service_type.index, service_type.values, color=colors)
