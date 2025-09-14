@@ -251,6 +251,20 @@ def analyze_ip():
     print(f"Durham's value: £{national_income['University of Durham']:,.0f}")
     print(f"Difference from national average: £{national_income['University of Durham'] - national_avg:,.0f}")
     
+    # Calculate national average income per license
+    # Get income-generating licenses for all universities (from table4b, Type of organisation column)
+    national_income_licenses = tables['table4b'][tables['table4b']['Type of organisation'] == 'Total number generating income in the period'].groupby('HE Provider')['Value'].sum()
+    # Calculate average income per license for each university (only for those with income-generating licenses)
+    valid_universities = national_income_licenses[national_income_licenses > 0].index
+    national_income_per_license = national_income[valid_universities] / national_income_licenses[valid_universities]
+    national_avg_per_license = national_income_per_license.mean()
+    print(f"National average income per license: £{national_avg_per_license:.2f}")
+    
+    # Calculate Durham's income per license
+    durham_income_licenses = national_income_licenses.get('University of Durham', 0)
+    durham_income_per_license = national_income['University of Durham'] / durham_income_licenses if durham_income_licenses > 0 else 0
+    print(f"Durham's income per license: £{durham_income_per_license:.2f}")
+    
     fig = plt.figure(figsize=(12, 6))
     colors = plt.cm.rainbow(np.linspace(0, 1, len(income_source)))
     ax = plt.bar(income_source.index, income_source.values, color=colors)
@@ -430,6 +444,145 @@ def analyze_ip():
         plt.text(i, v, f'{v:,.0f}', ha='center', va='bottom')
     plt.tight_layout()
     save_plot(fig, 'figure29.spin_ne_comparison.png')
+    
+    # Save results to markdown file
+    print("\nSaving results to markdown file...")
+    with open('3.ip_analysis.md', 'w', encoding='utf-8') as f:
+        f.write("# Intellectual Property Analysis\n\n")
+        
+        # IP Disclosures and Patents Analysis
+        f.write("## IP Disclosures and Patents Analysis\n\n")
+        f.write("### Disclosure Type Distribution (Durham)\n\n")
+        f.write("| Type | Value |\n")
+        f.write("|------|-------|\n")
+        for disclosure_type_name, value in disclosure_type.items():
+            f.write(f"| {disclosure_type_name} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### National Statistics for IP Disclosures\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total number of universities | {len(national_ip)} |\n")
+        f.write(f"| Durham's rank | {durham_rank}/{len(national_ip)} |\n")
+        f.write(f"| National average | {national_ip.mean():,.0f} |\n")
+        f.write(f"| Durham's value | {national_ip['University of Durham']:,.0f} |\n")
+        f.write(f"| Difference from national average | {national_ip['University of Durham'] - national_ip.mean():,.0f} |\n\n")
+        
+        f.write("### North East Universities IP Disclosures Comparison\n\n")
+        f.write("| University | Total Disclosures |\n")
+        f.write("|------------|------------------|\n")
+        for uni, value in ne_total.items():
+            f.write(f"| {uni} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # License Analysis
+        f.write("## License Analysis\n\n")
+        f.write("### License Type Distribution (Durham)\n\n")
+        f.write("| Type | Value |\n")
+        f.write("|------|-------|\n")
+        for license_type_name, value in license_type.items():
+            f.write(f"| {license_type_name} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### Organization Type Distribution (Durham)\n\n")
+        f.write("| Organization Type | Value |\n")
+        f.write("|------------------|-------|\n")
+        for org_type_name, value in org_type_dist.items():
+            f.write(f"| {org_type_name} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### License Analysis Details\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total licenses | {total_licenses:,.0f} |\n")
+        f.write(f"| Total income generating | {total_income_gen:,.0f} |\n")
+        f.write(f"| Income generation rate | {(total_income_gen/total_licenses*100):.1f}% |\n")
+        non_software_total = non_software_data['Value'].sum()
+        software_total = software_data['Value'].sum()
+        f.write(f"| Non-software licenses percentage | {(non_software_total/total_licenses*100):.1f}% |\n")
+        f.write(f"| Software licenses percentage | {(software_total/total_licenses*100):.1f}% |\n\n")
+        
+        f.write("### National Statistics for Licenses\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total number of universities | {len(national_license)} |\n")
+        f.write(f"| Durham's rank | {durham_rank}/{len(national_license)} |\n")
+        f.write(f"| National average | {national_license.mean():,.0f} |\n")
+        f.write(f"| Durham's value | {national_license['University of Durham']:,.0f} |\n")
+        f.write(f"| Difference from national average | {national_license['University of Durham'] - national_license.mean():,.0f} |\n\n")
+        
+        f.write("### North East Universities License Comparison\n\n")
+        f.write("| University | Total Licenses |\n")
+        f.write("|------------|---------------|\n")
+        for uni, value in ne_license_total.items():
+            f.write(f"| {uni} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # IP Income Analysis
+        f.write("## IP Income Analysis\n\n")
+        f.write("### Income Source Distribution (Durham)\n\n")
+        f.write("| Income Source | Value (£) |\n")
+        f.write("|---------------|----------|\n")
+        for income_source_name, value in income_source.items():
+            f.write(f"| {income_source_name} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### IP Income Metrics\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Durham income per license | £{durham_income_per_license:.2f} |\n")
+        f.write(f"| National average income per license | £{national_avg_per_license:.2f} |\n")
+        f.write(f"| Income per license difference | £{durham_income_per_license - national_avg_per_license:.2f} |\n\n")
+        
+        f.write("### National Statistics for IP Income\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total number of universities | {len(national_income)} |\n")
+        f.write(f"| Durham's rank | {durham_rank}/{len(national_income)} |\n")
+        f.write(f"| National average | £{national_income.mean():,.0f} |\n")
+        f.write(f"| Durham's value | £{national_income['University of Durham']:,.0f} |\n")
+        f.write(f"| Difference from national average | £{national_income['University of Durham'] - national_income.mean():,.0f} |\n\n")
+        
+        f.write("### North East Universities IP Income Comparison\n\n")
+        f.write("| University | IP Income (£) |\n")
+        f.write("|------------|---------------|\n")
+        for uni, value in ne_income_total.items():
+            f.write(f"| {uni} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # Spin-off Company Analysis
+        f.write("## Spin-off Company Analysis\n\n")
+        f.write("### Metric Type Distribution (Durham)\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        for metric_type_name, value in metric_type.items():
+            f.write(f"| {metric_type_name} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### Category Distribution (Durham)\n\n")
+        f.write("| Category | Value |\n")
+        f.write("|----------|-------|\n")
+        for category_name, value in category.items():
+            f.write(f"| {category_name} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### National Statistics for Spin-off Companies\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total number of universities | {len(national_spin)} |\n")
+        f.write(f"| Durham's rank | {durham_rank}/{len(national_spin)} |\n")
+        f.write(f"| National average | {national_spin.mean():,.0f} |\n")
+        f.write(f"| Durham's value | {national_spin['University of Durham']:,.0f} |\n")
+        f.write(f"| Difference from national average | {national_spin['University of Durham'] - national_spin.mean():,.0f} |\n\n")
+        
+        f.write("### North East Universities Spin-off Comparison\n\n")
+        f.write("| University | Spin-off Value |\n")
+        f.write("|------------|---------------|\n")
+        for uni, value in ne_spin_total.items():
+            f.write(f"| {uni} | {value:,.0f} |\n")
+        f.write("\n")
+    
+    print("Results have been saved to '3.ip_analysis.md'")
 
 if __name__ == "__main__":
     analyze_ip() 

@@ -191,6 +191,85 @@ def analyze_public_engagement():
     
     plt.tight_layout()
     save_plot(plt.gcf(), 'figure34.ne_comparison.png')
+    
+    # Save results to markdown file
+    print("\nSaving results to markdown file...")
+    with open('4.public_engagement_analysis.md', 'w', encoding='utf-8') as f:
+        f.write("# Public Engagement Analysis\n\n")
+        
+        # Event Analysis
+        f.write("## Event Analysis\n\n")
+        f.write("### Nature of Event Distribution\n\n")
+        f.write("| Nature of Event | Value |\n")
+        f.write("|-----------------|-------|\n")
+        for nature, value in nature_dist.items():
+            f.write(f"| {nature} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### Type of Event Analysis\n\n")
+        f.write("| Type of Event | Value |\n")
+        f.write("|---------------|-------|\n")
+        for event_type, value in type_dist.items():
+            f.write(f"| {event_type} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # Attendee Analysis
+        f.write("## Attendee Analysis\n\n")
+        f.write("### Attendees by Type\n\n")
+        f.write("| Attendee Type | Value |\n")
+        f.write("|---------------|-------|\n")
+        for attendee_type, value in attendees_by_type.items():
+            f.write(f"| {attendee_type} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # Staff Time Analysis
+        f.write("## Staff Time Analysis\n\n")
+        f.write("### Staff Time by Type\n\n")
+        f.write("| Staff Time Type | Value (Days) |\n")
+        f.write("|-----------------|-------------|\n")
+        for staff_type, value in staff_time_by_type.items():
+            f.write(f"| {staff_type} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # Durham University Performance
+        f.write("## Durham University Performance\n\n")
+        f.write("### Durham Public Engagement Metrics\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total events (all metrics) | {durham_total_events:,.0f} |\n")
+        f.write(f"| National rank | {durham_rank_total_events}/{len(national_total_events)} |\n")
+        f.write(f"| National average | {national_avg_total_events:,.0f} |\n")
+        f.write(f"| Difference from national average | {durham_total_events - national_avg_total_events:,.0f} |\n\n")
+        
+        # Regional Comparison
+        f.write("## Regional Comparison\n\n")
+        f.write("### North East Universities Attendees Comparison\n\n")
+        f.write("| University | Total Attendees |\n")
+        f.write("|------------|----------------|\n")
+        for uni, value in ne_totals.items():
+            f.write(f"| {uni} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        f.write("### North East Universities Total Events Comparison\n\n")
+        f.write("| University | Total Events |\n")
+        f.write("|------------|-------------|\n")
+        for uni, value in ne_total_totals.items():
+            f.write(f"| {uni} | {value:,.0f} |\n")
+        f.write("\n")
+        
+        # Performance Metrics
+        f.write("## Performance Metrics\n\n")
+        f.write("### Durham University Performance Summary\n\n")
+        f.write("| Metric | Value |\n")
+        f.write("|--------|-------|\n")
+        f.write(f"| Total events (all metrics) | {durham_total_events:,.0f} |\n")
+        f.write(f"| National rank | {durham_rank_total_events}/{len(national_total_events)} |\n")
+        f.write(f"| National average | {national_avg_total_events:,.0f} |\n")
+        f.write(f"| Difference from national average | {durham_total_events - national_avg_total_events:,.0f} |\n")
+        f.write(f"| Total attendees | {attendees_by_type.sum():,.0f} |\n")
+        f.write(f"| Total staff time (days) | {staff_time_by_type.sum():,.0f} |\n\n")
+    
+    print("Results have been saved to '4.public_engagement_analysis.md'")
 
 if __name__ == "__main__":
     analyze_public_engagement() 
